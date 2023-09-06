@@ -57,5 +57,10 @@ nationRouter
   })
   .delete((req, res) => {
     handleDeleteCountry();
-    res.end("Deleting all nations");
+    const response: ResponseBody<string> = {
+      data: [],
+      message: 'Delete success',
+      status: "success",
+    };
+    res.send(response).end();
   });
