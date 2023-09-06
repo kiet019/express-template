@@ -81,6 +81,7 @@
     // "preserveSymlinks": true,                         /* Disable resolving symlinks to their realpath. This correlates to the same flag in node. */
     "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
     "allowJs": true,
+
     /* Type Checking */
     "strict": true /* Enable all strict type-checking options. */,
     // "noImplicitAny": true,                            /* Enable error reporting for expressions and declarations with an implied 'any' type. */
@@ -109,9 +110,5 @@
   "ts-node": {
     // Tell ts-node CLI to install the --loader automatically
     "esm": true
-  },
-  "include": [
-    "./src/**/*.ts" // Đường dẫn đến các tệp TypeScript bạn muốn biên dịch
-  ],
-  "exclude": ["./node_modules"]
+  }
 }
