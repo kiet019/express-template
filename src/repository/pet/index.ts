@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Collection, Schema, model } from "mongoose";
 import { Pet } from "../../model/pet";
 
 const petSchema = new Schema({

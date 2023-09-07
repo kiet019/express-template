@@ -27,7 +27,7 @@ petRouter
   //POST
   .post("/", async (req, res) => {
     try {
-      const newPet = req.body;
+      const newPet = req.body as Pet;
       const createPet = await petService.createPet(newPet)
       const response : ResponseBody<Pet> = {
         data: [createPet],
