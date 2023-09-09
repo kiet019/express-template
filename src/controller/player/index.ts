@@ -51,6 +51,7 @@ playerRouter
           message: "Create success",
           status: "success",
         };
+        
         res.send(response).end();
       }
     } catch (error: any) {
@@ -59,6 +60,7 @@ playerRouter
         message: error.message,
         status: "error",
       };
+      res.statusCode = 400;
       res.send(response).end();
     }
   })
@@ -97,6 +99,7 @@ playerRouter
         message: error.message,
         status: "error",
       };
+      res.statusCode = 400;
       res.send(response).end();
     }
   })

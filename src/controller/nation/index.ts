@@ -59,6 +59,7 @@ nationRouter
         message: error.message,
         status: "error",
       };
+      res.statusCode = 400;
       res.send(response).end();
     }
   })
@@ -97,6 +98,7 @@ nationRouter
         message: error.message,
         status: "error",
       };
+      res.statusCode = 400;
       res.send(response).end();
     }
   })
