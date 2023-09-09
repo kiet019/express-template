@@ -1,7 +1,107 @@
-<html>
-  <title>This is index.html</title>
-  <body>
-    <h1>Index.html</h1>
-    <p>This is the contents of this file</p>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object Creator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            margin: 20px 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #output {
+            margin-top: 20px;
+        }
+
+        #output div {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #eee;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Nation Creator</h1>
+        <form id="objectForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description" required>
+            <button type="button" id="createObject">Create Object</button>
+        </form>
+        <div id="output">
+            <!-- Display created objects here -->
+        </div>
+    </div>
+
+    <script>
+        // JavaScript to handle object creation and display
+        document.addEventListener('DOMContentLoaded', function() {
+            const objectForm = document.getElementById('objectForm');
+            const createObjectButton = document.getElementById('createObject');
+            const outputDiv = document.getElementById('output');
+
+            createObjectButton.addEventListener('click', function() {
+                const name = document.getElementById('name').value;
+                const description = document.getElementById('description').value;
+
+                // Create the object
+                const object = { name, description };
+
+                // Display the object
+                const objectDiv = document.createElement('div');
+                objectDiv.innerHTML = `<strong>Name:</strong> ${name}<br><strong>Description:</strong> ${description}`;
+                outputDiv.appendChild(objectDiv);
+
+                // Clear the form
+                objectForm.reset();
+            });
+        });
+    </script>
+</body>
 </html>

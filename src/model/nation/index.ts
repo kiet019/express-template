@@ -1,4 +1,7 @@
+import { ObjectId } from "mongoose";
+
 export interface Nation {
-  id: string;
+  _id: any;
   name: string;
+  description: string;
 }

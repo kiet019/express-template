@@ -3,6 +3,7 @@ import { Router } from "express";
 import { ResponseBody } from "../../model/index";
 import { Nation } from "../../model/nation/index";
 import nationsService from "../../repository/nations.ts";
+import { ObjectId } from "mongoose";
 
 const nationRouter = Router();
 nationRouter.use(bodyParser.json());
@@ -15,20 +16,18 @@ nationRouter
   })
 
   //GET
-  .get("/", (req, res) => {
+  .get("/", async (req, res) => {
     const response: ResponseBody<Nation> = {
-      data: [...nationsService.getCountry()],
+      data: await nationsService.getNation(),
       message: "Get success",
       status: "success",
     };
     res.send(response).end();
   })
-  .get("/:id", (req, res) => {
-    const nation = nationsService.getCountry().find(
-      (value) => value.id === req.params.id
-    );
+  .get("/:id", async (req, res) => {
+    const nation = await nationsService.getNation(req.params.id);
     const response: ResponseBody<Nation> = {
-      data: nation ? [nation] : [],
+      data: nation,
       message: "Get success",
       status: "success",
     };
@@ -36,23 +35,16 @@ nationRouter
   })
 
   //POST
-  .post("/", (req, res) => {
+  .post("/", async (req, res) => {
     try {
-      const newCountry = req.body as Nation;
-      if (
-        nationsService.getCountry().find((value) => value.id === newCountry.id) ||
-        newCountry.id.length === 0
-      ) {
-        throw new Error("Nation is exists !");
-      } else {
-        nationsService.createCountry(newCountry);
-        const response: ResponseBody<Nation> = {
-          data: [...nationsService.getCountry()],
-          message: "Create success",
-          status: "success",
-        };
-        res.send(response).end();
-      }
+      const newNation = req.body as Nation;
+      const createNation = await nationsService.createNation(newNation);
+      const response: ResponseBody<Nation> = {
+        data: [createNation],
+        message: "Create success",
+        status: "success",
+      };
+      res.send(response).end();
     } catch (error: any) {
       const response: ResponseBody<string> = {
         data: [],
@@ -72,25 +64,19 @@ nationRouter
     res.statusCode = 403;
     res.end("PUT is no support");
   })
-  .put("/:id", (req, res) => {
+  .put("/:id", async (req, res) => {
     try {
-      const newCountry = req.body as Nation;
-      if (
-        nationsService.getCountry().find(
-          (value: Nation) => value.id === req.params.id
-        ) &&
-        newCountry.id.length > 0
-      ) {
-        nationsService.updateCountry(newCountry, req.params.id);
-        const response: ResponseBody<Nation> = {
-          data: [...nationsService.getCountry()],
-          message: "Update success",
-          status: "success",
-        };
-        res.send(response).end();
-      } else {
-        throw new Error("Nation is not exists !");
-      }
+      const newNation = req.body as Nation;
+      const updateNation = await nationsService.updateNation(
+        newNation,
+        req.params.id
+      );
+      const response: ResponseBody<Nation> = {
+        data: [],
+        message: "Update success",
+        status: "success",
+      };
+      res.send(response).end();
     } catch (error: any) {
       const response: ResponseBody<string> = {
         data: [],
@@ -102,19 +88,19 @@ nationRouter
   })
 
   //DELETE
-  .delete("/", (req, res) => {
-    nationsService.deleteCountry();
+  .delete("/", async (req, res) => {
+    const deleteNation = await nationsService.deleteNation();
     const response: ResponseBody<Nation> = {
-      data: nationsService.getCountry(),
+      data: [],
       message: "Delete success",
       status: "success",
     };
     res.send(response).end();
   })
-  .delete("/:id", (req, res) => {
-    nationsService.deleteCountry(req.params.id);
+  .delete("/:id", async (req, res) => {
+    const deleteNation = await nationsService.deleteNation(req.params.id);
     const response: ResponseBody<Nation> = {
-      data: nationsService.getCountry(),
+      data: deleteNation,
       message: "Delete success",
       status: "success",
     };
@@ -122,4 +108,3 @@ nationRouter
   });
 
 export default nationRouter;
-// export * from "../nation/index.ts";

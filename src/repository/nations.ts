@@ -1,28 +1,58 @@
-import { Nation } from "../model/nation/index";
+import { Schema, model } from "mongoose";
+import { Nation } from "../model/nation";
 
-let nations = [{ id: "vn", name: "Viet nam" }];
-const createCountry = (nation: Nation) => {
-  nations.push(nation);
-};
-const deleteCountry = (id?: string) => {
+const NationSchema = new Schema({
+  name: {
+    type: String,
+    require: true,
+  },
+  description: {
+    type: String,
+    require: true,
+  },
+});
+const NationModel = model("Nation", NationSchema);
+
+const getNation = async (id?: string) => {
+  let nations: Nation[] = [];
   if (id) {
-    nations = nations.filter((value) => value.id !== id);
-  }  else {
-    nations = []
+    const nation = (await NationModel.findById(id)) as Nation;
+    nation !== null ? nations.push(nation) : null;
+  } else {
+    nations = await NationModel.find();
   }
+  return nations;
 };
-const updateCountry = (nation: Nation, id: string) => {
-  let index = nations.findIndex((value) => value.id === id);
-  nations[index].name = nation.name
+const createNation = async (nation: Nation) => {
+  const createNation = (await NationModel.create({
+    name: nation.name,
+    description: nation.description,
+  })) as Nation;
+  return createNation;
 };
-const getCountry = () => {
-  return nations
-}
+const updateNation = async (nation: Nation, id: string) => {
+  const updateNation = await NationModel.updateOne(
+    { _id: id },
+    { $set: { name: nation.name, description: nation.description } }
+  );
+  return updateNation.modifiedCount;
+};
+const deleteNation = async (id?: string) => {
+  let deleteNation: Nation[] = [];
+  if (id) {
+    let nation = (await NationModel.findByIdAndDelete(id)) as Nation;
+    deleteNation.push(nation);
+  } else {
+    await NationModel.deleteMany();
+    deleteNation = [];
+  }
+  return deleteNation;
+};
 const nationsService = {
-  getCountry,
-  createCountry,
-  deleteCountry,
-  updateCountry,
+  getNation,
+  createNation,
+  deleteNation,
+  updateNation,
 };
 export default nationsService;
 // export * as nationsService from '../data/nations'
