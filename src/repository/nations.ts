@@ -38,15 +38,13 @@ const updateNation = async (nation: Nation, id: string) => {
   return updateNation.modifiedCount;
 };
 const deleteNation = async (id?: string) => {
-  let deleteNation: Nation[] = [];
+  let deleteNation;
   if (id) {
-    let nation = (await NationModel.findByIdAndDelete(id)) as Nation;
-    deleteNation.push(nation);
+    deleteNation = await NationModel.deleteOne({ _id: id });
   } else {
-    await NationModel.deleteMany();
-    deleteNation = [];
+    deleteNation = await NationModel.deleteMany();
   }
-  return deleteNation;
+  return deleteNation.deletedCount;
 };
 const nationsService = {
   getNation,

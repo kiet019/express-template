@@ -1,9 +1,8 @@
 import bodyParser from "body-parser";
 import { Router } from "express";
-import { ResponseBody } from "../../model/index";
-import { Nation } from "../../model/nation/index";
+import { ResponseBody, errorResponse } from "../../model/index.ts";
+import { Nation } from "../../model/nation/index.ts";
 import nationsService from "../../repository/nations.ts";
-import { ObjectId } from "mongoose";
 
 const nationRouter = Router();
 nationRouter.use(bodyParser.json());
@@ -17,21 +16,31 @@ nationRouter
 
   //GET
   .get("/", async (req, res) => {
-    const response: ResponseBody<Nation> = {
-      data: await nationsService.getNation(),
-      message: "Get success",
-      status: "success",
-    };
-    res.send(response).end();
+    try {
+      const response: ResponseBody<Nation> = {
+        data: await nationsService.getNation(),
+        message: "Get success",
+        status: "success",
+      };
+      res.send(response).end();
+    } catch (error) {
+      res.statusCode = 400;
+      res.send(errorResponse(error)).end();
+    }
   })
   .get("/:id", async (req, res) => {
-    const nation = await nationsService.getNation(req.params.id);
-    const response: ResponseBody<Nation> = {
-      data: nation,
-      message: "Get success",
-      status: "success",
-    };
-    res.send(response).end();
+    try {
+      const nation = await nationsService.getNation(req.params.id);
+      const response: ResponseBody<Nation> = {
+        data: nation,
+        message: "Get success",
+        status: "success",
+      };
+      res.send(response).end();
+    } catch (error) {
+      res.statusCode = 400;
+      res.send(errorResponse(error)).end();
+    }
   })
 
   //POST
@@ -46,12 +55,8 @@ nationRouter
       };
       res.send(response).end();
     } catch (error: any) {
-      const response: ResponseBody<string> = {
-        data: [],
-        message: error.message,
-        status: "error",
-      };
-      res.send(response).end();
+      res.statusCode = 400;
+      res.send(errorResponse(error)).end();
     }
   })
   .post("/:id", (req, res) => {
@@ -67,10 +72,7 @@ nationRouter
   .put("/:id", async (req, res) => {
     try {
       const newNation = req.body as Nation;
-      const updateNation = await nationsService.updateNation(
-        newNation,
-        req.params.id
-      );
+      const count = await nationsService.updateNation(newNation, req.params.id);
       const response: ResponseBody<Nation> = {
         data: [],
         message: "Update success",
@@ -78,33 +80,39 @@ nationRouter
       };
       res.send(response).end();
     } catch (error: any) {
-      const response: ResponseBody<string> = {
-        data: [],
-        message: error.message,
-        status: "error",
-      };
-      res.send(response).end();
+      res.statusCode = 400;
+      res.send(errorResponse(error)).end();
     }
   })
 
   //DELETE
   .delete("/", async (req, res) => {
-    const deleteNation = await nationsService.deleteNation();
-    const response: ResponseBody<Nation> = {
-      data: [],
-      message: "Delete success",
-      status: "success",
-    };
-    res.send(response).end();
+    try {
+      const count = await nationsService.deleteNation();
+      const response: ResponseBody<Nation> = {
+        data: [],
+        message: count ? "Delete success" : "Delete fail",
+        status: "success",
+      };
+      res.send(response).end();
+    } catch (error) {
+      res.statusCode = 400;
+      res.send(errorResponse(error)).end();
+    }
   })
   .delete("/:id", async (req, res) => {
-    const deleteNation = await nationsService.deleteNation(req.params.id);
-    const response: ResponseBody<Nation> = {
-      data: deleteNation,
-      message: "Delete success",
-      status: "success",
-    };
-    res.send(response).end();
+    try {
+      const count = await nationsService.deleteNation(req.params.id);
+      const response: ResponseBody<Nation> = {
+        data: [],
+        message: count ? "Delete success" : "Delete fail",
+        status: "success",
+      };
+      res.send(response).end();
+    } catch (error) {
+      res.statusCode = 400;
+      res.send(errorResponse(error)).end();
+    }
   });
 
 export default nationRouter;
