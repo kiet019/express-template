@@ -46,7 +46,7 @@ nationRouter
   //POST
   .post("/", async (req, res) => {
     try {
-      const newNation = req.body as Nation;
+      const newNation = req.body;
       const createNation = await nationsService.createNation(newNation);
       const response: ResponseBody<Nation> = {
         data: [createNation],
@@ -71,11 +71,11 @@ nationRouter
   })
   .put("/:id", async (req, res) => {
     try {
-      const newNation = req.body as Nation;
+      const newNation = req.body;
       const count = await nationsService.updateNation(newNation, req.params.id);
       const response: ResponseBody<Nation> = {
         data: [],
-        message: "Update success",
+        message: count ? "Update success" : "Update fail",
         status: "success",
       };
       res.send(response).end();

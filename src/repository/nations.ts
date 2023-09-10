@@ -10,7 +10,7 @@ const NationSchema = new Schema({
     type: String,
     require: true,
   },
-});
+}, { timestamps: true, });
 const NationModel = model("Nation", NationSchema);
 
 const getNation = async (id?: string) => {

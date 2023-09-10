@@ -5,6 +5,7 @@ import nationRouter from "./controller/nation/index.ts";
 import playerRouter from "./controller/player/index.ts";
 import connectDB from "./repository/connection/index.ts";
 import cors from "cors";
+import pageRouter from "./controller/page/index.ts";
 
 const app = express();
 const hostname = "localhost";
@@ -15,6 +16,7 @@ app.use(cors());
 app.use(morgan("dev"));
 app.use("/nations", nationRouter);
 app.use("/players", playerRouter);
+app.use("/", pageRouter)
 connectDB();
 const server = createServer(app);
 
