@@ -9,7 +9,7 @@ pageRouter.use((req, res, next) => {
     if (req.url == "/") fileUrl = "/index.html";
     else fileUrl = req.url;
 
-    var filePath = path.resolve("./public" + fileUrl);
+    var filePath = path.resolve("/public" + fileUrl);
     const fileExt = path.extname(filePath);
     if (fileExt == ".html") {
       fs.exists(filePath, (exists) => {

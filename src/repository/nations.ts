@@ -1,16 +1,19 @@
 import { Schema, model } from "mongoose";
 import { Nation } from "../model/nation";
 
-const NationSchema = new Schema({
-  name: {
-    type: String,
-    require: true,
+const NationSchema = new Schema(
+  {
+    name: {
+      type: String,
+      require: true,
+    },
+    description: {
+      type: String,
+      require: true,
+    },
   },
-  description: {
-    type: String,
-    require: true,
-  },
-}, { timestamps: true, });
+  { timestamps: true }
+);
 const NationModel = model("Nation", NationSchema);
 
 const getNation = async (id?: string) => {

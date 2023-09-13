@@ -1,7 +1,7 @@
 import bodyParser from "body-parser";
 import { Router } from "express";
-import { ResponseBody } from "../../model/index";
-import { Player } from "../../model/player/index";
+import { ResponseBody, errorResponse } from "../../model/index.ts";
+import { Player } from "../../model/player/index.ts";
 import playersService from "../../repository/player.ts";
 
 const playerRouter = Router();
@@ -15,51 +15,48 @@ playerRouter
   })
 
   //GET
-  .get("/", (req, res) => {
-    const response: ResponseBody<Player> = {
-      data: playersService.getPlayer(),
-      message: "Get success",
-      status: "success",
-    };
-    res.send(response).end();
+  .get("/", async (req, res) => {
+    try {
+      const response: ResponseBody<Player> = {
+        data: await playersService.getPlayer(),
+        message: "Get success",
+        status: "success",
+      };
+      res.send(response).end();
+    } catch (error) {
+      res.statusCode = 400;
+      res.send(errorResponse(error)).end();
+    }
   })
-  .get("/:id", (req, res) => {
-    const player = playersService
-      .getPlayer()
-      .find((value) => value.id === req.params.id);
-    const response: ResponseBody<Player> = {
-      data: player ? [player] : [],
-      message: "Get success",
-      status: "success",
-    };
-    res.send(response).end();
+  .get("/:id", async (req, res) => {
+    try {
+      const player = await playersService.getPlayer(req.params.id);
+      const response: ResponseBody<Player> = {
+        data: player,
+        message: "Get success",
+        status: "success",
+      };
+      res.send(response).end();
+    } catch (error) {
+      res.statusCode = 400;
+      res.send(errorResponse(error)).end();
+    }
   })
 
   //POST
-  .post("/", (req, res) => {
+  .post("/", async (req, res) => {
     try {
-      const newPlayer = req.body as Player;
-      if (
-        playersService.getPlayer().find((value) => value.id === newPlayer.id) ||
-        newPlayer.id.length === 0
-      ) {
-        throw new Error("Player is exists");
-      } else {
-        playersService.createPlayer(newPlayer);
-        const response: ResponseBody<Player> = {
-          data: playersService.getPlayer(),
-          message: "Create success",
-          status: "success",
-        };
-        res.send(response).end();
-      }
-    } catch (error: any) {
-      const response: ResponseBody<string> = {
-        data: [],
-        message: error.message,
-        status: "error",
+      const newNation = req.body;
+      const createNation = await playersService.createPlayer(newNation);
+      const response: ResponseBody<Player> = {
+        data: [createNation],
+        message: "Create success",
+        status: "success",
       };
       res.send(response).end();
+    } catch (error: any) {
+      res.statusCode = 400;
+      res.send(errorResponse(error)).end();
     }
   })
   .post("/:id", (req, res) => {
@@ -72,52 +69,50 @@ playerRouter
     res.statusCode = 403;
     res.end("PUT is no support");
   })
-  .put("/:id", (req, res) => {
+  .put("/:id", async (req, res) => {
     try {
-      const newPlayer = req.body as Player;
-      if (
-        playersService
-          .getPlayer()
-          .find((value) => value.id === req.params.id) &&
-        newPlayer.id.length > 0
-      ) {
-        playersService.updatePlayer(newPlayer, req.params.id);
-        const response: ResponseBody<Player> = {
-          data:  playersService.getPlayer(),
-          message: "Update success",
-          status: "success",
-        };
-        res.send(response).end();
-      } else {
-        throw new Error("Nation is not exists !");
-      }
-    } catch (error: any) {
-      const response: ResponseBody<string> = {
+      const newNation = req.body;
+      const count = await playersService.updatePlayer(newNation, req.params.id);
+      const response: ResponseBody<Player> = {
         data: [],
-        message: error.message,
-        status: "error",
+        message: count ? "Update success" : "Update fail",
+        status: "success",
       };
       res.send(response).end();
+    } catch (error: any) {
+      res.statusCode = 400;
+      res.send(errorResponse(error)).end();
     }
   })
 
   //DELETE
-  .delete("/", (req, res) => {
-    playersService.deletePlayer();
-    const response: ResponseBody<Player> = {
-      data: playersService.getPlayer(),
-      message: "Delete success",
-      status: "success",
-    };
-    res.send(response).end();
+  .delete("/", async (req, res) => {
+    try {
+      const count = await playersService.deletePlayer();
+      const response: ResponseBody<Player> = {
+        data: [],
+        message: count ? "Delete success" : "Delete fail",
+        status: "success",
+      };
+      res.send(response).end();
+    } catch (error) {
+      res.statusCode = 400;
+      res.send(errorResponse(error)).end();
+    }
   })
-  .delete("/:id", (req, res) => {
-    playersService.deletePlayer(req.params.id);
-    const response: ResponseBody<Player> = {
-      data: playersService.getPlayer(),
-      message: "Delete success",
-      status: "success",
-    };
-    res.send(response).end();
+  .delete("/:id", async (req, res) => {
+    try {
+      const count = await playersService.deletePlayer(req.params.id);
+      const response: ResponseBody<Player> = {
+        data: [],
+        message: count ? "Delete success" : "Delete fail",
+        status: "success",
+      };
+      res.send(response).end();
+    } catch (error) {
+      res.statusCode = 400;
+      res.send(errorResponse(error)).end();
+    }
   });
+
 export default playerRouter;

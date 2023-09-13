@@ -1,4 +1,9 @@
 export interface Player {
-    id: string
-    name: string
+    _id: any;
+    name: string;
+    image: string;
+    club: string;
+    position: string;
+    goals: number;
+    isCaptain: boolean;
 }
