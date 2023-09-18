@@ -1,18 +1,18 @@
 import express from "express";
 import morgan from "morgan";
 import { createServer } from "http";
-import nationRouter from "./controller/nation/index.ts";
-import playerRouter from "./controller/player/index.ts";
-import connectDB from "./repository/connection/index.ts";
+import nationRouter from "./nation/nation.controller.ts";
+import playerRouter from "./player/player.controller.ts";
+import connectDB from "./connection/index.ts";
 import cors from "cors";
-import pageRouter from "./controller/page/index.ts";
+import pageRouter from "./page/index.ts";
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
 const hostname = "localhost";
-const port = 5000;
+const port = 3000;
 
 app.use(cors());
 

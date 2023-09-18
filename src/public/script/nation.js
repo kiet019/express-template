@@ -1,4 +1,4 @@
-const baseURL = "http://localhost:5000";
+const endNationPoint = "http://localhost:3000/nations";
 
 const openCreateNationButton = document.getElementById(
   "open-create-nation-button"
@@ -18,9 +18,7 @@ const searchNationButton = document.getElementById("search-nation-button");
 
 const getNation = async (id) => {
   try {
-    const res = await fetch(
-      id ? `${baseURL}/nations/${id}` : `${baseURL}/nations`
-    );
+    const res = await fetch(id ? `${endNationPoint}${id}` : `${endNationPoint}`);
     if (!res.ok) {
       throw new Error(`HTTP error! Status: ${res.status}`);
     }
@@ -34,12 +32,9 @@ const getNation = async (id) => {
 
 const deleteNation = async (id) => {
   try {
-    const res = await fetch(
-      id ? `${baseURL}/nations/${id}` : `${baseURL}/nations`,
-      {
-        method: "DELETE",
-      }
-    );
+    const res = await fetch(id ? `${endNationPoint}${id}` : `${endNationPoint}`, {
+      method: "DELETE",
+    });
     if (!res.ok) {
       throw new Error(`HTTP error! Status: ${res.status}`);
     }
@@ -55,7 +50,7 @@ const deleteNation = async (id) => {
 
 const createNation = async (name, description) => {
   try {
-    const res = await fetch(`${baseURL}/nations`, {
+    const res = await fetch(`${endNationPoint}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -80,7 +75,7 @@ const createNation = async (name, description) => {
 
 const updateNation = async (id, name, description) => {
   try {
-    const res = await fetch(`${baseURL}/nations/${id}`, {
+    const res = await fetch(`${endNationPoint}/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

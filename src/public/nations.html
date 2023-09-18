@@ -1,0 +1,148 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Data Table</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <title>Bird Club</title>
+    <link rel="icon" href="images/logo.png" type="image/png" sizes="16x16" />
+    <link rel="stylesheet" href="css/style.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.9/dist/sweetalert2.min.css"
+    />
+
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.9/dist/sweetalert2.all.min.js"></script>
+  </head>
+  <body>
+    <div class="grid-layout">
+      <div class="grid-item">
+        <div class="navbar">
+          <ul>
+            <li><a href="http://localhost:3000/">Trang chủ</a></li>
+            <li>
+              <a href="http://localhost:3000/nations.html">Nation</a>
+            </li>
+            <li>
+              <a href="http://localhost:3000/players.html">Player</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="grid-item">
+        <section>
+          <h2>Nation</h2>
+
+          <div class="flex-between">
+            <div class="flex-box">
+              <button id="search-nation-button">Search</button>
+              <input
+                class="search"
+                type="text"
+                id="search-nation"
+                name="nation-name"
+                required
+                placeholder="Input ID..."
+              />
+            </div>
+            <div>
+              <button id="open-create-nation-button" class="update">
+                Create New Nation
+              </button>
+              <button id="delete-all-nation-button" class="delete">
+                Delete All Nation
+              </button>
+            </div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="table-nation-body"></tbody>
+          </table>
+          <form id="create-nation-form" style="visibility: hidden">
+            <div class="inside-form">
+              <h2>Create New Nation</h2>
+              <label for="name">Name:</label>
+              <input type="text" id="name" name="name" required /><br /><br />
+
+              <label for="description">Description:</label>
+              <input
+                type="text"
+                id="description"
+                name="description"
+                required
+              /><br /><br />
+
+              <div class="flex-between">
+                <div></div>
+                <div class="flex-box">
+                  <button
+                    id="submit-create-nation-form-button"
+                    type="submit"
+                    class="submit-form"
+                  >
+                    Submit
+                  </button>
+                  <button
+                    id="close-create-nation-button"
+                    type="button"
+                    class="close-form"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+          <form id="update-nation-form" style="visibility: hidden">
+            <div class="inside-form">
+              <h2>Update Nation</h2>
+              <label for="name">Name:</label>
+              <input type="text" id="name" name="name" required /><br /><br />
+
+              <label for="description">Description:</label>
+              <input
+                type="text"
+                id="description"
+                name="description"
+                required
+              /><br /><br />
+              <input type="text" id="id" name="id" style="display: none" />
+
+              <div class="flex-between">
+                <div></div>
+                <div class="flex-box">
+                  <button
+                    id="submit-update-nation-form-button"
+                    type="submit"
+                    class="submit-form"
+                  >
+                    Submit
+                  </button>
+                  <button
+                    id="close-update-nation-button"
+                    type="button"
+                    class="close-form"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </section>
+      </div>
+    </div>
+  </body>
+  <script type="text/javascript" src="./script/nation.js"></script>
+</html>

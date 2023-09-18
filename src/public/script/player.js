@@ -1,3 +1,5 @@
+const endPlayerPoint = "http://localhost:3000/players";
+
 const openCreatePlayerButton = document.getElementById(
   "open-create-player-button"
 );
@@ -17,7 +19,7 @@ const searchPlayerButton = document.getElementById("search-player-button");
 const getPlayer = async (id) => {
   try {
     const res = await fetch(
-      id ? `${baseURL}/players/${id}` : `${baseURL}/players`
+      id ? `${endPlayerPoint}/${id}` : `${endPlayerPoint}`
     );
     if (!res.ok) {
       throw new Error(`HTTP error! Status: ${res.status}`);
@@ -33,7 +35,7 @@ const getPlayer = async (id) => {
 const deletePlayer = async (id) => {
   try {
     const res = await fetch(
-      id ? `${baseURL}/players/${id}` : `${baseURL}/players`,
+      id ? `${endPlayerPoint}/${id}` : `${endPlayerPoint}`,
       {
         method: "DELETE",
       }
@@ -53,7 +55,7 @@ const deletePlayer = async (id) => {
 
 const createPlayer = async (name, image, club, position, goals, isCaptain) => {
   try {
-    const res = await fetch(`${baseURL}/players`, {
+    const res = await fetch(`${endPlayerPoint}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -90,7 +92,7 @@ const updatePlayer = async (
   isCaptain
 ) => {
   try {
-    const res = await fetch(`${baseURL}/players/${id}`, {
+    const res = await fetch(`${endPlayerPoint}/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
