@@ -32,7 +32,7 @@ const getNation = async (id) => {
 
 const deleteNation = async (id) => {
   try {
-    const res = await fetch(id ? `${endNationPoint}${id}` : `${endNationPoint}`, {
+    const res = await fetch(id ? `${endNationPoint}/${id}` : `${endNationPoint}`, {
       method: "DELETE",
     });
     if (!res.ok) {
