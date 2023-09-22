@@ -1,8 +1,8 @@
 import bodyParser from "body-parser";
 import { Router } from "express";
-import { ResponseBody, errorResponse } from "../model/index.ts";
-import { Nation } from "../model/nation/index.ts";
 import nationsService from "./nations.repository.ts";
+import { ResponseBody, errorResponse } from "../_interface/model/index.ts";
+import { Nation } from "../_interface/model/nation/index.ts";
 
 const nationRouter = Router();
 nationRouter.use(bodyParser.json());

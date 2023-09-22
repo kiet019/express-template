@@ -1,8 +1,8 @@
 import bodyParser from "body-parser";
 import { Router } from "express";
-import { ResponseBody, errorResponse } from "../model/index.ts";
-import { Player } from "../model/player/index.ts";
 import playersService from "./player.repository.ts";
+import { ResponseBody, errorResponse } from "../_interface/model/index.ts";
+import { Player } from "../_interface/model/player/index.ts";
 
 const playerRouter = Router();
 playerRouter.use(bodyParser.json());
