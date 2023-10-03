@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { Player } from "../_interface/model/player";
+import { Player } from "../package/model/player";
 
 const PlayerSchema = new Schema(
   {
@@ -85,4 +85,3 @@ deletePlayer,
 updatePlayer
 };
 export default playersService;
-// export * as nationsService from '../data/nations'

@@ -15,8 +15,26 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
     />
+    <style>
+      .layout {
+        max-width: 1250px;
+        margin: auto;
+      }
+      .delete {
+        background-color: #d32f2f !important;
+        color: white;
+      }
+      .update {
+        color: white;
+        background-color: #2e7d32 !important;
+      }
+    </style>
   </head>
   <body>
     <%- include("./components/header"); %>
+    <div class="layout">
+      <%- include("./components/form/create-nation-form")%>
+    </div>
+    <%- include("./components/alert/error") %>
   </body>
 </html>

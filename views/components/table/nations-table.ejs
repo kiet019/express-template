@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      th,
+      td {
+        max-width: 50px;
+        padding: 10px;
+        text-align: left;
+        border: 1px solid #ccc;
+      }
+
+      th {
+        background-color: #2b3445;
+        font-weight: bold;
+        color: white;
+      }
+
+      td {
+        background-color: #fff;
+        color: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% for( value of nationList) { %>
+        <tr>
+          <td><%= value._id%></td>
+          <td><%= value.name%></td>
+          <td><%= value.description%></td>
+          <td></td>
+        </tr>
+        <% }%>
+      </tbody>
+    </table>
+  </body>
+</html>

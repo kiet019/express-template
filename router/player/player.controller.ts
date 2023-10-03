@@ -1,13 +1,13 @@
 import bodyParser from "body-parser";
 import { Router } from "express";
-import nationsService from "./nations.repository.ts";
-import { ResponseBody, errorResponse } from "../_interface/model/index.ts";
-import { Nation } from "../_interface/model/nation/index.ts";
+import playersService from "./player.repository.ts";
+import { ResponseBody, errorResponse } from "../package/model/index.ts";
+import { Player } from "../package/model/player/index.ts";
 
-const nationRouter = Router();
-nationRouter.use(bodyParser.json());
+const playerRouter = Router();
+playerRouter.use(bodyParser.json());
 
-nationRouter
+playerRouter
   .use((req, res, next) => {
     res.statusCode = 200;
     res.setHeader("Content-Type", "application/json");
@@ -17,8 +17,8 @@ nationRouter
   //GET
   .get("/", async (req, res) => {
     try {
-      const response: ResponseBody<Nation> = {
-        data: await nationsService.getNation(),
+      const response: ResponseBody<Player> = {
+        data: await playersService.getPlayer(),
         message: "Get success",
         status: "success",
       };
@@ -30,9 +30,9 @@ nationRouter
   })
   .get("/:id", async (req, res) => {
     try {
-      const nation = await nationsService.getNation(req.params.id);
-      const response: ResponseBody<Nation> = {
-        data: nation,
+      const player = await playersService.getPlayer(req.params.id);
+      const response: ResponseBody<Player> = {
+        data: player,
         message: "Get success",
         status: "success",
       };
@@ -46,9 +46,9 @@ nationRouter
   //POST
   .post("/", async (req, res) => {
     try {
-      const newNation = req.body;
-      const createNation = await nationsService.createNation(newNation);
-      const response: ResponseBody<Nation> = {
+      const newNation = req.body ;
+      const createNation = await playersService.createPlayer(newNation);
+      const response: ResponseBody<Player> = {
         data: [createNation],
         message: "Create success",
         status: "success",
@@ -72,8 +72,8 @@ nationRouter
   .put("/:id", async (req, res) => {
     try {
       const newNation = req.body;
-      const count = await nationsService.updateNation(newNation, req.params.id);
-      const response: ResponseBody<Nation> = {
+      const count = await playersService.updatePlayer(newNation, req.params.id);
+      const response: ResponseBody<Player> = {
         data: [],
         message: count ? "Update success" : "Update fail",
         status: "success",
@@ -88,8 +88,8 @@ nationRouter
   //DELETE
   .delete("/", async (req, res) => {
     try {
-      const count = await nationsService.deleteNation();
-      const response: ResponseBody<Nation> = {
+      const count = await playersService.deletePlayer();
+      const response: ResponseBody<Player> = {
         data: [],
         message: count ? "Delete success" : "Delete fail",
         status: "success",
@@ -102,8 +102,8 @@ nationRouter
   })
   .delete("/:id", async (req, res) => {
     try {
-      const count = await nationsService.deleteNation(req.params.id);
-      const response: ResponseBody<Nation> = {
+      const count = await playersService.deletePlayer(req.params.id);
+      const response: ResponseBody<Player> = {
         data: [],
         message: count ? "Delete success" : "Delete fail",
         status: "success",
@@ -115,4 +115,4 @@ nationRouter
     }
   });
 
-export default nationRouter;
+export default playerRouter;

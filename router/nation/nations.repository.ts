@@ -1,11 +1,12 @@
 import { Schema, model } from "mongoose";
-import { Nation } from "../_interface/model/nation";
+import { Nation } from "../package/model/nation";
 
 const NationSchema = new Schema(
   {
     name: {
       type: String,
       require: true,
+      unique: true
     },
     description: {
       type: String,

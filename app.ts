@@ -1,12 +1,12 @@
 import express from "express";
-import connectDB from "./src/connection/index.ts";
-import nationRouter from "./src/nation/nation.controller.ts";
-import pageRouter from "./src/page/index.ts";
-import playerRouter from "./src/player/player.controller.ts";
 import path from "path";
 import { fileURLToPath } from "url";
 import morgan from "morgan";
 import cookieParser from "cookie-parser"
+import playerRouter from "./router/player/player.controller.ts";
+import nationRouter from "./router/nation/nation.controller.ts";
+import pageRouter from "./router/page/index.ts";
+import connectDB from "./router/package/connection/index.ts";
 
 var app = express();
 
@@ -24,7 +24,7 @@ app.use(express.static((__dirname + "/public")));
 
 app.use("/nations", nationRouter);
 app.use("/players", playerRouter);
-app.use("/", pageRouter);
+app.use("/view", pageRouter);
 connectDB();
 
 export default app

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      form {
+        max-width: 600px;
+        margin: 29px auto;
+        padding: 0rem 2rem 2rem;
+        border: 2px solid gray;
+        border-radius: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <form method="post">
+      <h5 style="text-align: center">Create Nation Form</h5>
+      <div class="input-field">
+        <input id="name" type="text" class="validate" name="name" required />
+        <label for="name">Name</label>
+      </div>
+      <div class="input-field">
+        <input
+          id="description"
+          type="text"
+          class="validate"
+          name="description"
+        />
+        <label for="description">Description</label>
+      </div>
+      <div style="display: flex; align-items: center; justify-content: end">
+        <button
+          class="btn waves-effect waves-light"
+          type="submit"
+        >
+          Submit
+          <i class="material-icons right">send</i>
+        </button>
+      </div>
+    </form>
+  </body>
+</html>

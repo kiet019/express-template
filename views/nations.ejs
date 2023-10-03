@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Data Table</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <link rel="icon" href="images/logo.png" type="image/png" sizes="16x16" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+    <style>
+      .layout {
+        max-width: 1250px;
+        margin: auto;
+      }
+      .delete {
+        background-color: #d32f2f !important;
+        color: white;
+      }
+      .update {
+        color: white;
+        background-color: #2e7d32 !important;
+      }
+    </style>
+  </head>
+  <body>
+    <%- include("./components/header"); %>
+    <div class="layout">
+      <h3 style="text-align: center">Nation Table</h3>
+      <div class="row">
+        <div class="col s6" style="padding: 0px !important">
+          <form method="post" style="display: flex; align-items: center">
+            <button class="waves-effect waves-light btn" type="submit">
+              search
+            </button>
+            <input
+              style="max-width: 400px; margin-left: 5px"
+              class="search"
+              type="text"
+              id="search-nation"
+              name="id"
+              required
+              placeholder="Input ID..."
+            />
+          </form>
+        </div>
+        <div class="col s6" style="padding: 0px !important">
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: end;
+              min-height: 53.8px;
+            "
+          >
+            <div>
+              <a
+                class="waves-effect waves-light btn update"
+                href="/view/nations/add"
+              >
+                Create New Nation
+              </a>
+              <a class="waves-effect waves-light btn delete"
+              href="/view/nations/delete">
+                Delete All Nation
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <%- include("./components/table/nations-table")%>
+    </div>
+  </body>
+</html>
