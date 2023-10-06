@@ -20,6 +20,14 @@
         max-width: 1250px;
         margin: auto;
       }
+      .delete {
+        background-color: #d32f2f !important;
+        color: white;
+      }
+      .update {
+        color: white;
+        background-color: #2e7d32 !important;
+      }
     </style>
   </head>
   <body>
@@ -43,7 +51,29 @@
             />
           </form>
         </div>
-        <div class="col s6"></div>
+        <div class="col s6" style="padding: 0px !important">
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: end;
+              min-height: 53.8px;
+            "
+          >
+            <a
+              class="waves-effect waves-light btn update"
+              href="/view/nations/add"
+            >
+              Create New Player
+            </a>
+            <a
+              class="waves-effect waves-light btn delete"
+              href="/view/nations/delete"
+            >
+              Delete All Players
+            </a>
+          </div>
+        </div>
       </div>
       <%- include("./components/table/player-table")%>
     </div>

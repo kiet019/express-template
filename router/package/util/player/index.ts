@@ -1,5 +1,5 @@
 const endPoint = "http://localhost:3000/players";
-const getPlayer = async (id?: string) => {
+export const getPlayer = async (id?: string) => {
   try {
     const res = await fetch(id ? `${endPoint}/${id}` : `${endPoint}`);
     const data = await res.json();
@@ -10,7 +10,7 @@ const getPlayer = async (id?: string) => {
   }
 };
 
-const deletePlayer = async (id?: string) => {
+export const deletePlayer = async (id?: string) => {
   try {
     const res = await fetch(id ? `${endPoint}/${id}` : `${endPoint}`, {
       method: "DELETE",
@@ -23,7 +23,7 @@ const deletePlayer = async (id?: string) => {
   }
 };
 
-const createPlayer = async ({
+export const createPlayer = async ({
   name,
   image,
   club,
@@ -54,7 +54,7 @@ const createPlayer = async ({
   }
 };
 
-const updatePlayer = async ({
+export const updatePlayer = async ({
   id,
   name,
   image,

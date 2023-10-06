@@ -18,7 +18,7 @@
         bottom: 3rem;
         width: 300px;
         right: 3rem;
-        background-color: #d32f2f;
+        background-color: #2e7d32;
         color: white;
         animation: showAndHide 2s ease-in-out;
         animation-fill-mode: forwards;
@@ -26,9 +26,9 @@
     </style>
   </head>
   <body>
-    <% for (value of error) { %>
+    <% for (value of success) { %>
     <div class="alert">
-      <i class="material-icons left">error</i>Error: <%= value%>
+      <i class="material-icons left">check_circle</i>Success: <%= value%>
     </div>
     <% } %>
   </body>
