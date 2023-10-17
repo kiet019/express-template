@@ -6,7 +6,7 @@ const NationSchema = new Schema(
     name: {
       type: String,
       require: true,
-      unique: true
+      unique: true,
     },
     description: {
       type: String,

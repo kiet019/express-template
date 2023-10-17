@@ -16,7 +16,7 @@ export const deletePlayer = async (id?: string) => {
       method: "DELETE",
     });
     const data = await res.json();
-    return data.data;
+    return data;
   } catch (error) {
     console.error("Error fetching data:", error);
     return [];
@@ -47,11 +47,8 @@ export const createPlayer = async ({
       }),
     });
     const data = await res.json();
-    return data.data;
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    return [];
-  }
+    return data;
+  } catch (error) {}
 };
 
 export const updatePlayer = async ({
@@ -80,7 +77,7 @@ export const updatePlayer = async ({
     });
 
     const data = await res.json();
-    return data.data;
+    return data;
   } catch (error) {
     console.error("Error fetching data:", error);
     return [];

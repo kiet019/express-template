@@ -16,7 +16,7 @@ export const deleteNation = async (id?: string) => {
       method: "DELETE",
     });
     const data = await res.json();
-    return data.data;
+    return data;
   } catch (error) {
     console.error("Error fetching data:", error);
     return { data: [] };
@@ -38,7 +38,7 @@ export const createNation = async (name: string, description: string) => {
   if (data.status === "error") {
     throw new Error("Nation name exists");
   }
-  return data.data;
+  return data;
 };
 
 export const updateNation = async (
@@ -61,7 +61,7 @@ export const updateNation = async (
     if (data.status === "error") {
       throw new Error("Nation name exists");
     }
-    return data.data;
+    return data;
   } catch (error) {
     console.error("Error fetching data:", error);
     return { data: [] };

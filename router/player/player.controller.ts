@@ -46,10 +46,13 @@ playerRouter
   //POST
   .post("/", async (req, res) => {
     try {
-      const newNation = req.body ;
-      const createNation = await playersService.createPlayer(newNation);
+      const newPlayer = req.body;
+      if (newPlayer.goals < 0) {
+        throw new Error("Number of goals must more than or equals 0");
+      }
+      const createPlayer = await playersService.createPlayer(newPlayer);
       const response: ResponseBody<Player> = {
-        data: [createNation],
+        data: [createPlayer],
         message: "Create success",
         status: "success",
       };

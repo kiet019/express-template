@@ -1,0 +1,253 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      th,
+      td {
+        padding: 10px;
+        text-align: left;
+        border: 1px solid #ccc;
+      }
+
+      th {
+        background-color: #2b3445;
+        font-weight: bold;
+        color: white;
+      }
+
+      td {
+        background-color: #fff;
+        color: #333;
+      }
+      form {
+        background-color: white;
+        max-width: 600px;
+        margin: auto;
+        padding: 0rem 2rem 2rem;
+        border: 2px solid gray;
+        border-radius: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h3 style="text-align: center">Player Table</h3>
+    <div class="row">
+      <div class="col s6" style="padding-left: 0px !important"></div>
+      <div class="col s6" style="padding: 0px !important">
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: end;
+            min-height: 53.8px;
+          "
+        >
+          <button
+            class="modal-trigger waves-effect waves-light btn update"
+            data-target="modal1"
+          >
+            Create New Player
+          </button>
+        </div>
+      </div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Image</th>
+          <th>Name</th>
+          <th>Position</th>
+          <th>Club</th>
+          <th>Goals</th>
+          <th>Captain</th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% for( value of playerList) { %>
+        <tr>
+          <td>
+            <img
+              style="
+                width: 50px;
+                height: 50px;
+                object-fit: cover;
+                object-position: center;
+              "
+              src="<%= value.image%>"
+              alt=""
+              class="circle responsive-img"
+            />
+          </td>
+          <td><%= value.name%></td>
+          <td><%= value.position%></td>
+          <td><%= value.club%></td>
+          <td><%= value.goals%></td>
+          <td><%= value.isCaptain%></td>
+          <td>
+            <div style="display: flex">
+              <button
+                class="waves-effect waves-light btn update-one"
+                id="<%= value._id%>"
+              >
+                Update
+              </button>
+
+              <button
+                class="waves-effect waves-light btn delete-one"
+                id="<%= value._id%>"
+              >
+                Delete
+              </button>
+            </div>
+          </td>
+        </tr>
+        <% }%>
+      </tbody>
+    </table>
+
+    <div
+      id="modal1"
+      class="modal"
+      style="width: 600px; background-color: rgba(0, 0, 0, 0)"
+    >
+      <div class="modal-content" style="padding: 0px">
+        <form id="create">
+          <h5 style="text-align: center">Create Player Form</h5>
+          <div class="input-field">
+            <input
+              id="name"
+              type="text"
+              class="validate"
+              name="name"
+              required
+            />
+            <label for="name">Name</label>
+          </div>
+          <div class="input-field">
+            <select>
+              <option value="" disabled selected>Choose your option</option>
+              <% for (value of options) { %>
+              <option value="<%= value.name %>"><%= value.name %></option>
+
+              <% } %>
+            </select>
+            <label>Position</label>
+          </div>
+          <div class="input-field">
+            <input
+              id="image"
+              type="text"
+              class="validate"
+              name="image"
+              required
+            />
+            <label for="description">Image</label>
+          </div>
+          <div class="input-field">
+            <input
+              id="club"
+              type="text"
+              class="validate"
+              name="club"
+              required
+            />
+            <label for="description">Club:</label>
+          </div>
+          <div class="input-field">
+            <input
+              id="goals"
+              type="number"
+              class="validate"
+              name="goals"
+              required
+            />
+            <label for="description">Goals:</label>
+          </div>
+          <p>
+            <label>
+              <input type="checkbox" class="filled-in" checked="checked" />
+              <span>Captain</span>
+            </label>
+          </p>
+          <div style="display: flex; align-items: center; justify-content: end">
+            <button
+              class="btn modal-close waves-effect waves-light"
+              type="submit"
+            >
+              Submit
+              <i class="material-icons right">send</i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script>
+      $(document).ready(function () {
+        $(".modal").modal();
+        $("select").formSelect();
+        $("#create").submit(function (event) {
+          event.preventDefault();
+
+          var name = $("#name").val();
+          var position = $("select").val();
+          var image = $("#image").val();
+          var club = $("#club").val();
+          var goals = $("#goals").val();
+          var isCaptain = $("input[type='checkbox']").is(":checked");
+          if (position.length === 0 || goals < 0) {
+            alert(
+              "Position must be choose or goals must more than or equals 0"
+            );
+          } else {
+            $.ajax({
+              url: "/view/player/create",
+              method: "POST",
+              data: { name, position, image, club, goals, isCaptain },
+              success: (data) => {
+                console.log(data);
+                $("#main").html(data);
+              },
+            });
+          }
+        });
+        $(".delete-one").click(function (event) {
+          event.preventDefault();
+          var id = $(this).attr("id");
+          if (confirm("Do you want to delete")) {
+            $.ajax({
+              url: "/view/player/delete",
+              method: "POST",
+              data: { id },
+              success: (data) => {
+                console.log(data);
+                $("#main").html(data);
+              },
+            });
+          }
+        });
+        $(".update-one").click(function (event) {
+          event.preventDefault();
+          var id = $(this).attr("id");
+          $.ajax({
+            url: `/view/player/update/${id}`,
+            data: { id },
+            success: (data) => {
+              console.log(data);
+              $("#main").html(data);
+            },
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

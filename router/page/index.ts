@@ -3,65 +3,137 @@ import {
   createNation,
   deleteNation,
   getNation,
+  updateNation,
 } from "../package/util/nation/index.ts";
-import { getPlayer } from "../package/util/player/index.ts";
-import { ResponseBody } from "../package/model/index.ts";
+import { Nation } from "../package/model/nation/index.ts";
+import { ResponseBody } from "../package/model";
 import { Player } from "../package/model/player/index.ts";
+import {
+  createPlayer,
+  deletePlayer,
+  getPlayer,
+  updatePlayer,
+} from "../package/util/player/index.ts";
 const pageRouter = Router();
 
+const options = [
+  { id: "Goalkeeper", name: "Goalkeeper" },
+  { id: "Defender", name: "Defender" },
+  { id: "Midfielder", name: "Midfielder" },
+  { id: "Striker", name: "Striker" },
+];
 pageRouter
   .get("/", (req, res, next) => {
     res.render("index");
   })
-
-  .get("/nations", async (req, res, next) => {
-    const nationList = await getNation();
-    const { success } = req.query;
-    res.render("nations", {
-      nationList: nationList.data,
-      success: success ? [success] : [],
-    });
+  .get("/table/nation", async (req, res) => {
+    const nationList: ResponseBody<Nation> = await getNation();
+    res.render("nation-table", { nationList: nationList.data });
   })
-
-  .get("/nations/add", async (req, res, next) => {
-    res.render("nations-add", { error: [] });
+  .get("/table/player", async (req, res) => {
+    const playerList: ResponseBody<Player> = await getPlayer();
+    res.render("player-table", { playerList: playerList.data, options });
   })
-
-  .get("/nations/delete", async (req, res) => {
+  .get("/nation/update/:id", async (req, res) => {
+    const id = req.params.id;
+    const nationList: ResponseBody<Nation> = await getNation(id);
+    res.render("nation-update", { nation: nationList.data[0] });
+  })
+  .get("/player/update/:id", async (req, res) => {
+    const id = req.params.id;
+    const playerList: ResponseBody<Nation> = await getPlayer(id);
+    res.render("player-update", { player: playerList.data[0], options });
+  })
+  .post("/player/update", async (req, res) => {
+    console.log("hello")
     try {
-      await deleteNation();
-    } catch (error) {}
-    res.redirect("/view/nations");
-  })
-
-  .post("/nations", async (req, res) => {
-    try {
-      const nationList = await getNation(req?.body?.id);
-      res.render("nations", { nationList: nationList.data, success: [] });
+      const data = req.body;
+      console.log(data)
+      const playerUpdate: ResponseBody<Player> = await updatePlayer(data);
+      if (playerUpdate.status === "success") {
+        const playerList: ResponseBody<Nation> = await getPlayer();
+        res.render("player-table", { playerList: playerList.data, options });
+      }
     } catch (error) {
-      res.render("nations", { nationList: [] });
+      console.log(error)
+      res.statusCode = 400;
+      res.end();
     }
   })
-  .post("/nations/add", async (req, res) => {
+  .post("/nation/update", async (req, res) => {
     try {
-      await createNation(req.body.name, req.body.description);
-      res.redirect("http://localhost:3000/view/nations?success=create-success");
-    } catch (error: any) {
-      res.render("nations-add", { error: [error.message] });
-    }
-  })
-
-  .get("/players", async (req, res, next) => {
-    const playerList : ResponseBody<Player> = await getPlayer();
-    res.render("players", { playerList: playerList.data });
-  })
-  .post("/players", async (req, res) => {
-    try {
-      const playerList = await getPlayer(req?.body?.id);
-      res.render("players", { playerList: playerList.data, success: [] });
+      const data = req.body;
+      const nationUpdate: ResponseBody<Nation> = await updateNation(
+        data.id,
+        data.name,
+        data.description
+      );
+      console.log(nationUpdate);
+      if (nationUpdate.status === "success") {
+        const nationList: ResponseBody<Nation> = await getNation();
+        res.render("nation-table", { nationList: nationList.data });
+      }
     } catch (error) {
-      res.render("players", { playerList: [] });
+      res.statusCode = 400;
+      res.end();
     }
   })
+  .post("/nation/create", async (req, res) => {
+    const data = req.body;
+    try {
+      const create: ResponseBody<Nation> = await createNation(
+        data.name,
+        data.description
+      );
+      if (create.status === "success") {
+        const nationList: ResponseBody<Nation> = await getNation();
+        res.render("nation-table", { nationList: nationList.data });
+      }
+      res.render("nation-table");
+    } catch (error) {
+      res.statusCode = 400;
+      res.end();
+    }
+  })
+  .post("/player/create", async (req, res) => {
+    const data = req.body;
+    try {
+      const create: ResponseBody<Nation> = await createPlayer(data);
+      if (create.status === "success") {
+        const playerList: ResponseBody<Player> = await getPlayer();
+        res.render("player-table", { playerList: playerList.data, options });
+      }
+      res.render("nation-table");
+    } catch (error) {
+      res.statusCode = 400;
+      res.end();
+    }
+  })
+  .post("/nation/delete", async (req, res) => {
+    const data = req.body;
+    try {
+      const deleteN: ResponseBody<Nation> = await deleteNation(data.id);
+      if (deleteN.status === "success") {
+        const nationList: ResponseBody<Nation> = await getNation();
+        res.render("nation-table", { nationList: nationList.data });
+      }
+    } catch (error) {
+      res.statusCode = 400;
+      res.end();
+    }
+  })
+  .post("/player/delete", async (req, res) => {
+    const data = req.body;
+    try {
+      const deleteN: ResponseBody<Player> = await deletePlayer(data.id);
+      if (deleteN.status === "success") {
+        const playerList: ResponseBody<Player> = await getPlayer();
+        res.render("player-table", { playerList: playerList.data, options });
+      }
+    } catch (error) {
+      res.statusCode = 400;
+      res.end();
+    }
+  });
 
 export default pageRouter;

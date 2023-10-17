@@ -6,6 +6,7 @@ const PlayerSchema = new Schema(
     name: {
       type: String,
       require: true,
+      unique: true,
     },
     image: {
       type: String,
@@ -79,9 +80,9 @@ const deletePlayer = async (id?: string) => {
   return deletePlayer.deletedCount;
 };
 const playersService = {
-getPlayer,
-createPlayer,
-deletePlayer,
-updatePlayer
+  getPlayer,
+  createPlayer,
+  deletePlayer,
+  updatePlayer,
 };
 export default playersService;
