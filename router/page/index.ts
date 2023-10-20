@@ -56,7 +56,7 @@ pageRouter
       }
     } catch (error) {
       console.log(error)
-      res.statusCode = 400;
+      res.statusCode = 404;
       res.end();
     }
   })
@@ -74,7 +74,7 @@ pageRouter
         res.render("nation-table", { nationList: nationList.data });
       }
     } catch (error) {
-      res.statusCode = 400;
+      res.statusCode = 404;
       res.end();
     }
   })
@@ -91,7 +91,7 @@ pageRouter
       }
       res.render("nation-table");
     } catch (error) {
-      res.statusCode = 400;
+      res.statusCode = 404;
       res.end();
     }
   })
@@ -105,7 +105,7 @@ pageRouter
       }
       res.render("nation-table");
     } catch (error) {
-      res.statusCode = 400;
+      res.statusCode = 404;
       res.end();
     }
   })
@@ -118,7 +118,7 @@ pageRouter
         res.render("nation-table", { nationList: nationList.data });
       }
     } catch (error) {
-      res.statusCode = 400;
+      res.statusCode = 404;
       res.end();
     }
   })
@@ -131,7 +131,7 @@ pageRouter
         res.render("player-table", { playerList: playerList.data, options });
       }
     } catch (error) {
-      res.statusCode = 400;
+      res.statusCode = 404;
       res.end();
     }
   });

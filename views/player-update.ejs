@@ -106,6 +106,9 @@
               console.log(data);
               $("#main").html(data);
             },
+            error: (data) => {
+              alert("Player's name is exists");
+            }
           });
         }
       });
