@@ -105,7 +105,7 @@
       $("#nation").click(function (e) {
         e.preventDefault(); // Ngăn chặn liên kết mặc định chuyển hướng trang
         $.ajax({
-          url: "/view/table/nation",
+          url: "/view/nation/table",
           success: (data) => {
             $("#main").html(data);
           },
@@ -114,7 +114,7 @@
       $("#player").click(function (e) {
         e.preventDefault(); // Ngăn chặn liên kết mặc định chuyển hướng trang
         $.ajax({
-          url: "/view/table/player",
+          url: "/view/player/table",
           success: (data) => {
             $("#main").html(data);
           },

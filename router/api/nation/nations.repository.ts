@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { Nation } from "../package/model/nation";
+import { Nation } from "../../package/model/nation";
 
 const NationSchema = new Schema(
   {

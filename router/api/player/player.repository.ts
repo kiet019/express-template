@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { Player } from "../package/model/player";
+import { Player } from "../../package/model/player";
 
 const PlayerSchema = new Schema(
   {

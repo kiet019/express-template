@@ -1,13 +1,13 @@
 import bodyParser from "body-parser";
 import { Router } from "express";
-import playersService from "./player.repository.ts";
-import { ResponseBody, errorResponse } from "../package/model/index.ts";
-import { Player } from "../package/model/player/index.ts";
+import nationsService from "./nations.repository.ts";
+import { ResponseBody, errorResponse } from "../../package/model/index.ts";
+import { Nation } from "../../package/model/nation/index.ts";
 
-const playerRouter = Router();
-playerRouter.use(bodyParser.json());
+const nationRouter = Router();
+nationRouter.use(bodyParser.json());
 
-playerRouter
+nationRouter
   .use((req, res, next) => {
     res.statusCode = 200;
     res.setHeader("Content-Type", "application/json");
@@ -17,8 +17,8 @@ playerRouter
   //GET
   .get("/", async (req, res) => {
     try {
-      const response: ResponseBody<Player> = {
-        data: await playersService.getPlayer(),
+      const response: ResponseBody<Nation> = {
+        data: await nationsService.getNation(),
         message: "Get success",
         status: "success",
       };
@@ -30,9 +30,9 @@ playerRouter
   })
   .get("/:id", async (req, res) => {
     try {
-      const player = await playersService.getPlayer(req.params.id);
-      const response: ResponseBody<Player> = {
-        data: player,
+      const nation = await nationsService.getNation(req.params.id);
+      const response: ResponseBody<Nation> = {
+        data: nation,
         message: "Get success",
         status: "success",
       };
@@ -46,13 +46,10 @@ playerRouter
   //POST
   .post("/", async (req, res) => {
     try {
-      const newPlayer = req.body;
-      if (newPlayer.goals < 0) {
-        throw new Error("Number of goals must more than or equals 0");
-      }
-      const createPlayer = await playersService.createPlayer(newPlayer);
-      const response: ResponseBody<Player> = {
-        data: [createPlayer],
+      const newNation = req.body;
+      const createNation = await nationsService.createNation(newNation);
+      const response: ResponseBody<Nation> = {
+        data: [createNation],
         message: "Create success",
         status: "success",
       };
@@ -75,8 +72,8 @@ playerRouter
   .put("/:id", async (req, res) => {
     try {
       const newNation = req.body;
-      const count = await playersService.updatePlayer(newNation, req.params.id);
-      const response: ResponseBody<Player> = {
+      const count = await nationsService.updateNation(newNation, req.params.id);
+      const response: ResponseBody<Nation> = {
         data: [],
         message: count ? "Update success" : "Update fail",
         status: "success",
@@ -91,8 +88,8 @@ playerRouter
   //DELETE
   .delete("/", async (req, res) => {
     try {
-      const count = await playersService.deletePlayer();
-      const response: ResponseBody<Player> = {
+      const count = await nationsService.deleteNation();
+      const response: ResponseBody<Nation> = {
         data: [],
         message: count ? "Delete success" : "Delete fail",
         status: "success",
@@ -105,8 +102,8 @@ playerRouter
   })
   .delete("/:id", async (req, res) => {
     try {
-      const count = await playersService.deletePlayer(req.params.id);
-      const response: ResponseBody<Player> = {
+      const count = await nationsService.deleteNation(req.params.id);
+      const response: ResponseBody<Nation> = {
         data: [],
         message: count ? "Delete success" : "Delete fail",
         status: "success",
@@ -118,4 +115,4 @@ playerRouter
     }
   });
 
-export default playerRouter;
+export default nationRouter;
