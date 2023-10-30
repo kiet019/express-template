@@ -1,0 +1,119 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hello Bulma!</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+  </head>
+  <body>
+    <%- include('./components/navbar') %> <%- include('./components/script') %>
+
+    <div class="container">
+      <h1 class="title">Categories</h1>
+      <div class="field">
+        <div class="control" style="text-align: end">
+          <button type="button" class="button is-primary" id="createButton">
+            Create new Category
+          </button>
+        </div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for( value of categoriesList ) { %>
+          <tr>
+            <td><%= value.categoryName %></td>
+            <td>
+              <div class="buttons">
+                <a
+                  class="button is-success update-one"
+                  href="/view/admin/categories/update/<%= value._id %>"
+                >
+                  Update
+                </a>
+
+                <button
+                  class="button is-warning delete-one"
+                  id="<%= value._id%>"
+                >
+                  Delete
+                </button>
+              </div>
+            </td>
+          </tr>
+          <% } %>
+        </tbody>
+      </table>
+
+      <div
+        class="modal <%= error.length === 0 && success.length === 0 ? '' : 'is-active' %>"
+        id="createPopup"
+      >
+        <div class="modal-background"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Create form</p>
+            <button class="delete close" aria-label="close"></button>
+          </header>
+          <form id="createCategoryForm">
+            <section class="modal-card-body">
+              <div class="field">
+                <label for="newCategoryNameInput" class="label"
+                  >New category name:</label
+                >
+                <div class="control">
+                  <input
+                    type="text"
+                    id="newCategoryNameInput"
+                    name="newName"
+                    class="input"
+                  />
+                </div>
+              </div>
+              <% for( value of error ) { %>
+              <div class="notification is-danger is-light mt-2">
+                <%= "Error: " + value %>
+              </div>
+              <% } %> <% for( value of success ) { %>
+              <div class="notification is-success is-light mt-2">
+                <%= "Success: " + value %>
+              </div>
+              <% } %>
+            </section>
+            <footer class="modal-card-foot" style="justify-content: flex-end">
+              <button class="button is-success" type="submit">
+                Save changes
+              </button>
+            </footer>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script>
+      $(document).ready(function () {
+        $("#createButton").click(() => {
+          $("#createPopup").addClass("is-active");
+        });
+        $(".close").click(() => {
+          window.location.href = "/view/admin/categories";
+        });
+      });
+      $(".delete-one").click(async function (event) {
+        event.preventDefault();
+        var id = $(this).attr("id");
+        $.post("/view/admin/categories/delete", { id }, (data) => {
+          window.location.href = "/view/admin/categories";
+        });
+      });
+    </script>
+  </body>
+</html>

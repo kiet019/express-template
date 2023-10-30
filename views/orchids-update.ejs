@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hello Bulma!</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+    <style>
+      .control {
+        margin-bottom: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <%- include('./components/navbar') %> <%- include('./components/script') %>
+
+    <div class="container">
+      <div class="modal-card card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Update form</p>
+        </header>
+        <form id="updateOrchidForm">
+          <section class="modal-card-body">
+            <div class="field">
+              <input
+                type="text"
+                id="id"
+                value="<%= orchid._id %>"
+                style="display: none"
+              />
+              <div class="control">
+                <label for="updateOrchidImageInput" class="label"
+                  >Orchid image:
+                </label>
+                <input
+                  type="text"
+                  id="updateOrchidsImageInput"
+                  name="newName"
+                  value="<%= orchid.image %>"
+                  class="input"
+                />
+              </div>
+              <div class="control">
+                <label for="updateOrchidsNameInput" class="label"
+                  >Orchid name:
+                </label>
+                <input
+                  type="text"
+                  id="updateOrchidsNameInput"
+                  name="newName"
+                  value="<%= orchid.name %>"
+                  class="input"
+                />
+              </div>
+              <div class="control">
+                <label for="updateOrchidOriginInput" class="label"
+                  >Orchid origin:
+                </label>
+                <input
+                  type="text"
+                  id="updateOrchidsOriginInput"
+                  name="newName"
+                  value="<%= orchid.origin %>"
+                  class="input"
+                />
+              </div>
+              <div class="control">
+                <label for="newCategoryNameInput" class="label"
+                  >Select category:
+                </label>
+                <div class="select">
+                  <select>
+                    <% for( value of categoriesList ) { %>
+                    <option><%= value.categoryName %></option>
+                    <% } %>
+                  </select>
+                </div>
+              </div>
+              <div class="control">
+                <label class="checkbox">
+                  <input type="checkbox" style="width: 20px; height: 20px" <%= orchid.isNatural ? "checked" : "" %>  />
+                  Natural
+                </label>
+              </div>
+            </div>
+            <% for( value of error ) { %>
+            <div class="notification is-danger is-light mt-2">
+              <%= "Error: " + value %>
+            </div>
+            <% } %> <% for( value of success ) { %>
+            <div class="notification is-success is-light mt-2">
+              <%= "Success: " + value %>
+            </div>
+            <% } %>
+          </section>
+          <footer class="modal-card-foot" style="justify-content: flex-end">
+            <button class="button is-success" type="submit">
+              Save changes
+            </button>
+          </footer>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

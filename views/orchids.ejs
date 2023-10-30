@@ -1,0 +1,183 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hello Bulma!</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+    <style>
+      .control {
+        margin-bottom: 1rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <%- include('./components/navbar') %> <%- include('./components/script') %>
+
+    <div class="container">
+      <h1 class="title">Orchids</h1>
+      <div class="field">
+        <div class="control" style="text-align: end">
+          <button type="button" class="button is-primary" id="createButton">
+            Create new orchids
+          </button>
+        </div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 100px !important">Image</th>
+            <th>Name</th>
+            <th>Natural</th>
+            <th>Origin</th>
+            <th>Category</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for( value of orchidsList ) { %>
+          <tr>
+            <td>
+              <img
+                src="<%= value.image %>"
+                style="
+                  object-fit: cover;
+                  object-position: center;
+                  width: 50px;
+                  height: 50px;
+                "
+              />
+            </td>
+            <td><%= value.name %></td>
+            <td><%= value.isNatural ? "Natural" : "Hybrid" %></td>
+            <td><%= value.origin %></td>
+            <td><%= value.category.categoryName %></td>
+            <td>
+              <div class="buttons">
+                <a
+                  class="button is-success update-one"
+                  href="/view/admin/orchids/update/<%= value._id %>"
+                >
+                  Update
+                </a>
+
+                <button
+                  class="button is-warning delete-one"
+                  id="<%= value._id%>"
+                >
+                  Delete
+                </button>
+              </div>
+            </td>
+          </tr>
+          <% } %>
+        </tbody>
+      </table>
+      <div
+        class="modal <%= error.length === 0 && success.length === 0 ? '' : 'is-active' %>"
+        id="createPopup"
+      >
+        <div class="modal-background"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Create form</p>
+            <button class="delete close" aria-label="close"></button>
+          </header>
+          <form id="createOrchidForm">
+            <section class="modal-card-body">
+              <div class="field">
+                <div class="control">
+                  <label for="newCategoryNameInput" class="label"
+                    >New orchid image:
+                  </label>
+                  <input
+                    type="text"
+                    id="newOrchidsImageInput"
+                    name="newName"
+                    class="input"
+                  />
+                </div>
+                <div class="control">
+                  <label for="newCategoryNameInput" class="label"
+                    >New orchid name:
+                  </label>
+                  <input
+                    type="text"
+                    id="newOrchidsNameInput"
+                    name="newName"
+                    class="input"
+                  />
+                </div>
+                <div class="control">
+                  <label for="newCategoryNameInput" class="label"
+                    >New orchid origin:
+                  </label>
+                  <input
+                    type="text"
+                    id="newOrchidsOriginInput"
+                    name="newName"
+                    class="input"
+                  />
+                </div>
+                <div class="control">
+                  <label for="newCategoryNameInput" class="label"
+                    >Select category:
+                  </label>
+                  <div class="select">
+                    <select>
+                      <% for( value of categoriesList ) { %>
+                      <option><%= value.categoryName %></option>
+                      <% } %>
+                    </select>
+                  </div>
+                </div>
+                <div class="control">
+                  <label class="checkbox">
+                    <input type="checkbox" style="width: 20px; height: 20px" />
+                    Natural
+                  </label>
+                </div>
+              </div>
+
+              <% for( value of error ) { %>
+              <div class="notification is-danger is-light mt-2">
+                <%= "Error: " + value %>
+              </div>
+              <% } %> <% for( value of success ) { %>
+              <div class="notification is-success is-light mt-2">
+                <%= "Success: " + value %>
+              </div>
+              <% } %>
+            </section>
+            <footer class="modal-card-foot" style="justify-content: flex-end">
+              <button class="button is-success" type="submit">
+                Save changes
+              </button>
+            </footer>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script>
+      $(document).ready(function () {
+        $("#createButton").click(() => {
+          $("#createPopup").addClass("is-active");
+        });
+        $(".close").click(() => {
+          window.location.href = "/view/admin/orchids";
+        });
+      });
+      $(".delete-one").click(async function (event) {
+        event.preventDefault();
+        var id = $(this).attr("id");
+        $.post("/view/admin/orchids/delete", { id }, (data) => {
+          window.location.href = "/view/admin/orchids";
+        });
+      });
+    </script>
+  </body>
+</html>

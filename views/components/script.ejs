@@ -1,0 +1,248 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hello Bulma!</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+    <style>
+      .container {
+        max-width: 1000px !important;
+        margin-top: 4rem;
+      }
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #f5f5f5;
+        min-height: 700px;
+        padding-bottom: 200px;
+      }
+      .image {
+        width: 100% !important;
+        height: 200px !important;
+        object-fit: cover;
+        object-position: center;
+      }
+      .grid-contaner {
+        display: grid;
+        grid-template-columns: 25% 25% 25% 25%;
+      }
+      .grid-item {
+        margin: 12px;
+      }
+
+      .label {
+        font-weight: bold;
+        margin-right: 5px;
+        margin-bottom: 0px !important;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      th,
+      td {
+        min-width: 50px;
+        padding: 10px;
+        text-align: left;
+        border: 1px solid #ccc;
+      }
+      th {
+        background-color: #2b3445;
+        font-weight: bold;
+        color: white !important;
+      }
+      td {
+        background-color: #fff;
+        color: #333 !important;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script
+      src="https://kit.fontawesome.com/1bf12ccdfc.js"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      $(document).ready(function () {
+        $("#searchForm").submit(function (e) {
+          e.preventDefault();
+
+          var searchQuery = $("#searchInput").val();
+
+          window.location.href =
+            "/view/search/" + encodeURIComponent(searchQuery);
+        });
+      });
+    </script>
+    <script>
+      $(document).ready(function () {
+        $("#loginForm").submit(function (e) {
+          e.preventDefault();
+
+          // Lấy giá trị từ các trường input
+          var username = $("#usernameInput").val();
+          var password = $("#passwordInput").val();
+
+          // Gửi dữ liệu đến server Express
+          $.post("/view/login", { username, password }, (data) => {
+            console.log(data);
+            window.location.href = data.redirect;
+          });
+        });
+      });
+    </script>
+    <script>
+      $(document).ready(function () {
+        $("#logoutButton").click(function (e) {
+          e.preventDefault();
+
+          $.post("/view/logout", {}, (data) => {
+            console.log(data);
+            window.location.href = data.redirect;
+          });
+        });
+      });
+    </script>
+    <script>
+      $(document).ready(function () {
+        $("#signupForm").submit(function (event) {
+          event.preventDefault();
+
+          const username = $("#usernameInput").val();
+          const password = $("#passwordInput").val();
+          const name = $("#nameInput").val();
+          const YOB = $("#yearInput").val();
+
+          $.post("/view/signup", { username, password, name, YOB }, (data) => {
+            window.location.href = data.redirect;
+          });
+        });
+      });
+    </script>
+    <script>
+      $(document).ready(function () {
+        $("#commentForm").submit(function (event) {
+          event.preventDefault();
+
+          const rating = $("#commentForm select option:selected").text();
+          const comment = $("#comment").val();
+          const id = $("#id").val();
+
+          $.post("/view/comment", { id, rating, comment }, (data) => {
+            window.location.href = data.redirect;
+          });
+        });
+      });
+    </script>
+    <script>
+      $(document).ready(function () {
+        $("#editAccountForm").submit(function (event) {
+          event.preventDefault();
+          const name = $("#newNameInput").val();
+          const YOB = $("#newYOBInput").val();
+          console.log({ name, YOB });
+          $.post("/view/account/update", { name, YOB }, (data) => {
+            window.location.href = data.redirect;
+          });
+        });
+      });
+    </script>
+    <script>
+      $(document).ready(function () {
+        $("#updatePasswordForm").submit(function (event) {
+          event.preventDefault();
+          const oldPassword = $("#oldPasswordInput").val();
+          const newPassword = $("#newPasswordInput").val();
+          const confirmPassword = $("#confirmPasswordInput").val();
+          $.post(
+            "/view/account/update-password",
+            { oldPassword, newPassword, confirmPassword },
+            (data) => {
+              window.location.href = data.redirect;
+            }
+          );
+        });
+      });
+    </script>
+    <script>
+      $(document).ready(function () {
+        $("#createCategoryForm").submit(function (event) {
+          event.preventDefault();
+
+          const categoryName = $("#newCategoryNameInput").val();
+          $.post("/view/admin/categories/create", { categoryName }, (data) => {
+            window.location.href = data.redirect;
+          });
+        });
+      });
+    </script>
+    <script>
+      $(document).ready(function () {
+        $("#updateCategoryForm").submit(function (event) {
+          event.preventDefault();
+          const id = $("#id").val();
+          const categoryName = $("#updateCategoryNameInput").val();
+          // console.log({ id, categoryName });
+          $.post(
+            "/view/admin/categories/update",
+            { categoryName, id },
+            (data) => {
+              console.log(data);
+              window.location.href = data.redirect;
+            }
+          );
+        });
+      });
+    </script>
+    <script>
+      $(document).ready(function () {
+        $("#createOrchidForm").submit(function (event) {
+          event.preventDefault(); // Ngăn chặn hành vi mặc định của form
+
+          // Đọc các giá trị từ form sử dụng các ID đã được thiết lập
+          const image = $("#newOrchidsImageInput").val();
+          const name = $("#newOrchidsNameInput").val();
+          const origin = $("#newOrchidsOriginInput").val();
+          const categoryName = $("select option:selected").text();
+          const isNatural = $('input[type="checkbox"]').is(":checked");
+
+          console.log({ image, name, origin, categoryName, isNatural });
+          $.post(
+            "/view/admin/orchids/create",
+            { image, name, origin, categoryName, isNatural },
+            (data) => {
+              window.location.href = data.redirect;
+            }
+          );
+        });
+      });
+    </script>
+    <script>
+      $(document).ready(function () {
+        $("#updateOrchidForm").submit(function (event) {
+          event.preventDefault();
+          const id = $("#id").val();
+          const image = $("#updateOrchidsImageInput").val();
+          const name = $("#updateOrchidsNameInput").val();
+          const origin = $("#updateOrchidsOriginInput").val();
+          const categoryName = $("select option:selected").text();
+          const isNatural = $('input[type="checkbox"]').is(":checked");
+
+          $.post(
+            "/view/admin/orchids/update",
+            { id, image, name, origin, categoryName, isNatural },
+            (data) => {
+              window.location.href = data.redirect;
+            }
+          );
+        });
+      });
+    </script>
+  </body>
+</html>

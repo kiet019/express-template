@@ -80,7 +80,6 @@ function onError(error: { syscall: string; code: any }) {
 
 function onListening() {
   var addr = server.address();
-  var bind = typeof addr === "string" ? "pipe " + addr : "port " + addr?.port;
-  console.log(bind)
+  console.log("http://localhost:3000/")
   console.log("http://localhost:3000/view")
 }

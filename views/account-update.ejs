@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Edit Name and Year of Birth</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+  </head>
+  <body>
+    <%- include('./components/navbar') %> <%- include('./components/script') %>
+
+    <div class="container">
+      <h1 class="title">Update Information</h1>
+      <form
+        id="editAccountForm"
+        class="box"
+        style="max-width: 500px; margin: auto"
+      >
+        <div class="field">
+          <label for="newName" class="label">New Name:</label>
+          <div class="control">
+            <input type="text" value="<%= user.name %>" id="newNameInput" name="newName" class="input" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="newYOB" class="label">New Year of Birth:</label>
+          <div class="control">
+            <input type="number" value="<%= user.YOB %>" id="newYOBInput" name="newYOB" class="input" />
+          </div>
+        </div>
+        <div class="field">
+          <div class="control" style="text-align: end">
+            <input type="submit" value="Submit" class="button is-primary" />
+          </div>
+        </div>
+        <% for( value of error ) { %>
+        <div class="notification is-danger is-light mt-2">
+          <%= "Error: " + value %>
+        </div>
+        <% } %> <% for( value of success ) { %>
+        <div class="notification is-success is-light mt-2">
+          <%= "Success: " + value %>
+        </div>
+        <% } %>
+      </form>
+    </div>
+  </body>
+</html>

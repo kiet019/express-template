@@ -1,0 +1,153 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hello Bulma!</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+    <style>
+      .card {
+        padding: 1rem !important;
+      }
+
+      .info-item {
+        margin-bottom: 8px;
+      }
+
+      .label-value {
+        display: flex;
+        align-items: center;
+      }
+
+      .label {
+        font-weight: bold;
+        margin-right: 5px;
+        margin-bottom: 0px !important;
+      }
+
+      .value {
+        /* You can customize the appearance of the values here */
+        color: #333;
+      }
+      .comment-container {
+        margin-top: 1rem;
+      }
+      .star {
+        color: yellow !important;
+        display: flex;
+      }
+    </style>
+  </head>
+  <body>
+    <%- include('./components/navbar') %> <%- include('./components/script') %>
+    <div class="container">
+      <h1 class="title">Details</h1>
+      <div class="columns">
+        <div class="column is-two-thirds">
+          <div class="card">
+            <img src="<%= orchid.image %>" />
+          </div>
+        </div>
+        <div class="column">
+          <div class="card">
+            <div
+              class="plant-info"
+              style="border-bottom: 1px solid #3e4042; padding-bottom: 1rem"
+            >
+              <div class="info-item">
+                <span class="label-value">
+                  <span class="label">Name:</span>
+                  <span class="value" id="name"><%= orchid.name %></span>
+                </span>
+              </div>
+              <div class="info-item">
+                <span class="label-value">
+                  <span class="label">Origin:</span>
+                  <span class="value" id="origin"><%= orchid.origin %></span>
+                </span>
+              </div>
+              <div class="info-item">
+                <span class="label-value">
+                  <span class="label">Natural:</span>
+                  <span class="value" id="isNatural"
+                    ><%= orchid.isNatural ? "Natural" : "Hybrid" %></span
+                  >
+                </span>
+              </div>
+              <div class="info-item">
+                <span class="label-value">
+                  <span class="label">Category:</span>
+                  <span class="value" id="category"
+                    ><%= orchid.category.categoryName %></span
+                  >
+                </span>
+              </div>
+            </div>
+            <% if (!alreadyComment) { %>
+            <form
+              class="navbar-item mb-5"
+              method="get"
+              id="commentForm"
+              style="padding: 0px; margin-top: 1rem; display: block"
+            >
+              <input id="id" value="<%= orchid._id%>" style="display: none" />
+              <div style="display: flex">
+                Rating:
+                <div class="select is-small ml-2" style="width: 50px">
+                  <select>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                  </select>
+                </div>
+              </div>
+              <p class="control has-icons-right mt-3" style="width: 100%">
+                <span class="icon is-small is-right">
+                  <i class="fa-solid fa-paper-plane"></i>
+                </span>
+                <input
+                  class="input"
+                  id="comment"
+                  type="text"
+                  placeholder="Comment ..."
+                />
+              </p>
+              <button
+                class="button is-success mt-3"
+                type="submit"
+                style="width: 100%"
+              >
+                Send
+              </button>
+            </form>
+            <% for( value of error ) { %>
+            <div class="notification is-danger is-light mt-2">
+              <%= "Error: " + value %>
+            </div>
+            <% } %> <% } %> <% for( value of orchid.comments ) { %>
+            <div class="comment-container">
+              <div class="icon-text">
+                <span class="icon has-text-info">
+                  <i class="fa-solid fa-user"></i>
+                </span>
+                <span><%= value.author.name %></span>
+              </div>
+              <div class="star mt-3">
+                <% for( let i = 1; i <= 5; i++ ) { if (i <= value.rating) { %>
+                <i class="fa-solid fa-star"></i>
+                <% } else { %><i class="fa-regular fa-star"></i> <% } } %>
+              </div>
+              <div class="comment mt-1"><%= value.comment %></div>
+            </div>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
