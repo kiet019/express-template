@@ -18,7 +18,9 @@ publicRouter
       const orchidsList = await orchidRepository.userGetAllOrchids();
       console.log({ ...getPageParams(req, [], []), orchidsList });
       res.render("index", { ...getPageParams(req, [], []), orchidsList });
-    } catch (error: any) {}
+    } catch (error: any) {
+      res.redirect("/view");
+    }
   })
   .get("/login", async (req, res) => {
     try {
@@ -30,7 +32,9 @@ publicRouter
     try {
       const { error } = getMessage(req);
       res.render("signup", getPageParams(req, error, []));
-    } catch (error) {}
+    } catch (error) {
+      res.redirect("/view");
+    }
   })
   .get("/details/:id", async (req, res) => {
     try {
@@ -38,7 +42,6 @@ publicRouter
       let alreadyComment = false;
       const { error } = getMessage(req);
       const orchid = await orchidRepository.getOrchidById(id);
-
       try {
         const decode = (await userRepository.verifyToken(
           getToken(req)
@@ -49,12 +52,17 @@ publicRouter
           alreadyComment = true;
         }
       } catch (error) {}
+      if (orchid === null) {
+        throw new Error("Cannot find orchid")
+      }
       res.render("details", {
         ...getPageParams(req, error, []),
         orchid,
         alreadyComment,
       });
-    } catch (error) {}
+    } catch (error) {
+      res.redirect("/view");
+    }
   })
   .get("/search/:name", async (req, res) => {
     try {
@@ -65,7 +73,9 @@ publicRouter
         orchidsList,
         name,
       });
-    } catch (error) {}
+    } catch (error) {
+      res.redirect("/view");
+    }
   })
   .get("/account", async (req, res) => {
     try {

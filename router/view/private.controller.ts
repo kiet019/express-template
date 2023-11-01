@@ -203,6 +203,22 @@ privateRouter
         redirect: `/view/admin/orchids/update/${id}?error=${error.message}`,
       });
     }
-  });
+  })
+  .get("/users", async(req , res) => {
+    try {
+      const { error, success } = getMessage(req);
+      const user = await userRepository.getViewAuthorization(req);
+      if (!user?.isAdmin) {
+        throw new Error("Unauthorized");
+      }
+      let userList = await userRepository.getAllNonAdminUsers()
+      res.render("users", {
+        ...getPageParams(req, error, success, true),
+        userList,
+      });
+    } catch (error) {
+      res.redirect("/view");
+    }
+  })
 
 export default privateRouter;

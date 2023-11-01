@@ -80,6 +80,10 @@ export class UserRepository {
     return await userModel.find();
   }
 
+  async getAllNonAdminUsers() {
+    return await userModel.find({ isAdmin: false });
+  }
+
   async registerUser(userData: User) {
     // Hash the user's password using bcrypt
     if (userData.username.length === 0) {

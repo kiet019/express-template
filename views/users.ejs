@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hello Bulma!</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+    <style>
+      .control {
+        margin-bottom: 1rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <%- include('./components/navbar') %> <%- include('./components/script') %>
+
+    <div class="container">
+      <h1 class="title">Orchids</h1>
+      <div class="field">
+        <div class="control" style="text-align: end">
+          <button type="button" class="button is-primary" id="createButton">
+            Create new orchids
+          </button>
+        </div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Year of Birth</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for( value of userList ) { %>
+          <tr>
+            <td><%= value.name %></td>
+            <td><%= value.YOB %></td>
+          </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
