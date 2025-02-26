@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-import app from "../app.ts";
+import app from "../app.js";
 import { createServer } from "http";
 
 /**
@@ -32,7 +32,7 @@ server.on("listening", onListening);
  * Normalize a port into a number, string, or false.
  */
 
-function normalizePort(val: string) {
+function normalizePort(val) {
   var port = parseInt(val, 10);
 
   if (isNaN(port)) {
@@ -52,7 +52,7 @@ function normalizePort(val: string) {
  * Event listener for HTTP server "error" event.
  */
 
-function onError(error: { syscall: string; code: any }) {
+function onError(error) {
   if (error.syscall !== "listen") {
     throw error;
   }

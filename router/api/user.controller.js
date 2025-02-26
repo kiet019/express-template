@@ -1,6 +1,5 @@
 import express from "express";
-import { UserRepository } from "../package/repository/user.repository.ts";
-import { User } from "../package/model/user.ts";
+import { UserRepository } from "../package/repository/user.repository.js";
 
 const userRouter = express.Router();
 
@@ -8,10 +7,10 @@ const userRepository = new UserRepository();
 userRouter
   .post("/register", async (req, res) => {
     try {
-      const userData: User = req.body;
+      const userData = req.body;
       const newUser = await userRepository.registerUser(userData);
       res.json(newUser);
-    } catch (error: any) {
+    } catch (error) {
       res.status(500).json({ error: error.message });
     }
   })
@@ -21,7 +20,7 @@ userRouter
       const { username, password } = req.body;
       const token = await userRepository.loginUser(username, password);
       res.json({ token });
-    } catch (error: any) {
+    } catch (error) {
       console.log(error);
       res.status(500).json({ error: error.message });
     }
@@ -29,7 +28,7 @@ userRouter
 
   .put("/update-password", async (req, res) => {
     try {
-      const user = (await userRepository.getAuthorization(req)) as User;
+      const user = (await userRepository.getAuthorization(req));
       const { password, newPassword, confirmPassword } = req.body;
 
       if (newPassword !== confirmPassword) {
@@ -41,7 +40,7 @@ userRouter
         newPassword
       );
       res.json(updatedUser);
-    } catch (error: any) {
+    } catch (error) {
       res.status(500).json({ error: error.message });
     }
   })
@@ -49,7 +48,7 @@ userRouter
   // Update user by ID
   .put("/update-user", async (req, res) => {
     try {
-      const user = (await userRepository.getAuthorization(req)) as User;
+      const user = (await userRepository.getAuthorization(req));
       const updateData = req.body;
 
       const updatedUser = await userRepository.updateUser(
@@ -57,7 +56,7 @@ userRouter
         updateData
       );
       res.json(updatedUser);
-    } catch (error: any) {
+    } catch (error) {
       res.status(500).json({ error: error.message });
     }
   });

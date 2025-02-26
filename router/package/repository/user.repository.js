@@ -1,34 +1,32 @@
-import { User, userModel } from "../model/user.ts";
+import {  userModel } from "../model/user.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { jwtString, saltRounds } from "../config.ts";
-import { Request } from "express";
-import { getToken } from "../util.ts";
+import { jwtString, saltRounds } from "../config.js";
+import { getToken } from "../util.js";
 export class UserRepository {
   // Find a user by ID
-  async findUserById(userId: string) {
+  async findUserById(userId) {
     return await userModel.findById(userId);
   }
 
   // Find a user by username
-  async findUserByUsername(username: string) {
+  async findUserByUsername(username) {
     return await userModel.findOne({ username });
   }
 
-  async checkUserExist(username: string) {
+  async checkUserExist(username) {
     const user = await this.findUserByUsername(username);
     return user !== null;
   }
   async updatePassword(
-    userId: string,
-    oldPassword: string,
-    newPassword: string
-  ) {
+    userId,
+    oldPassword,
+    newPassword){
     if (newPassword && newPassword.length === 0) {
       throw new Error("New password is not empty");
     }
     const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
-    const user = (await this.findUserById(userId)) as User;
+    const user = (await this.findUserById(userId)) ;
     const passwordMatch = await bcrypt.compare(oldPassword, user.password);
 
     if (!passwordMatch) {
@@ -49,11 +47,8 @@ export class UserRepository {
 
   // Update a user by ID
   async updateUser(
-    userId: string,
-    updateData: {
-      name: string;
-      YOB: number;
-    }
+    userId,
+    updateData
   ) {
     if (updateData.YOB <= 0) {
       throw new Error("Year of age is more than 0");
@@ -84,7 +79,7 @@ export class UserRepository {
     return await userModel.find({ isAdmin: false });
   }
 
-  async registerUser(userData: User) {
+  async registerUser(userData) {
     // Hash the user's password using bcrypt
     if (userData.username.length === 0) {
       throw new Error("Username is not empty");
@@ -115,9 +110,9 @@ export class UserRepository {
     return await user.save();
   }
 
-  async loginUser(username: string, password: string) {
+  async loginUser(username, password) {
     try {
-      const user = (await userModel.findOne({ username })) as User;
+      const user = (await userModel.findOne({ username })) ;
 
       if (!user) {
         throw new Error("Incorrect username");
@@ -138,7 +133,7 @@ export class UserRepository {
       throw error;
     }
   }
-  async verifyToken(token: string) {
+  async verifyToken(token) {
     return new Promise((resolve, reject) => {
       jwt.verify(token, jwtString, (err, decoded) => {
         if (err) {
@@ -150,24 +145,24 @@ export class UserRepository {
       });
     });
   }
-  async getAuthorization(req: Request) {
+  async getAuthorization(req) {
     const token = req.get("Authorization");
     if (!token) {
       throw new Error("Unauthenticated");
     }
-    const decoded = (await this.verifyToken(token)) as any;
+    const decoded = (await this.verifyToken(token)) ;
     if (!decoded) {
       throw new Error("Token expired");
     }
     const user = await this.findUserById(decoded.userId);
     return user;
   }
-  async getViewAuthorization(req: Request) {
+  async getViewAuthorization(req) {
     const token = getToken(req);
     if (token === undefined || token.length === 0) {
       throw new Error("Not logged in");
     }
-    const decode = (await this.verifyToken(token)) as unknown as any;
+    const decode = (await this.verifyToken(token)) ;
     const user = await this.findUserById(decode.userId);
     return user;
   }

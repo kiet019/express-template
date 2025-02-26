@@ -1,16 +1,15 @@
-import { PageParams } from "./config";
 
 export const getPageParams = (
-  req: Request | any,
-  error: string[],
-  success: string[],
-  admin?: boolean
+  req,
+  error,
+  success,
+  admin
 ) => {
   let isAdmin = false;
   if (admin) {
     isAdmin = admin;
   }
-  const pageParams: PageParams = {
+  const pageParams = {
     isLogin: getToken(req) !== undefined && getToken(req) !== "",
     error,
     success,
@@ -18,17 +17,17 @@ export const getPageParams = (
   };
   return pageParams;
 };
-export const getToken = (req: Request | any) => {
+export const getToken = (req) => {
   const token = req.cookies["token"];
   return token;
 };
-export const setToken = async (res: Response | any, token: string) => {
+export const setToken = async (res) => {
   const expire = new Date(Date.now() + 3600000);
   res.cookie("token", token, { httpOnly: true, expires: expire });
 };
-export const getMessage = (req: Request | any) => {
-  let success: string[] = [];
-  let error: string[] = [];
+export const getMessage = (req) => {
+  let success;
+  let error;
   if (req.query.success) {
     const message = decodeURIComponent(req.query.success);
     success = message.split("-");

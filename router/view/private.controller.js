@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { getMessage, getPageParams } from "../package/util.ts";
-import { UserRepository } from "../package/repository/user.repository.ts";
-import OrchidRepository from "../package/repository/orchid.repository.ts";
-import CategoryRepository from "../package/repository/category.repository.ts";
+import { getMessage, getPageParams } from "../package/util.js";
+import { UserRepository } from "../package/repository/user.repository.js";
+import OrchidRepository from "../package/repository/orchid.repository.js";
+import CategoryRepository from "../package/repository/category.repository.js";
 
 const privateRouter = Router();
 const userRepository = new UserRepository();
@@ -97,7 +97,7 @@ privateRouter
       const category = await categoryRepository.getCategoryByName(categoryName);
       await orchidRepository.createOrchid({
         image,
-        category: category[0]._id as unknown as string,
+        category: category[0]._id,
         isNatural,
         name,
         origin,
@@ -105,7 +105,7 @@ privateRouter
       res.json({
         redirect: `/view/admin/orchids?success=Create success`,
       });
-    } catch (error: any) {
+    } catch (error) {
       res.json({ redirect: `/view/admin/orchids?error=${error.message}` });
     }
   })
@@ -123,7 +123,7 @@ privateRouter
       res.json({
         redirect: `/view/admin/categories?success=Create success`,
       });
-    } catch (error: any) {
+    } catch (error) {
       res.json({ redirect: `/view/admin/categories?error=${error.message}` });
     }
   })
@@ -140,7 +140,7 @@ privateRouter
       res.json({
         redirect: `/view/admin/categories/update/${id}?success=Update success`,
       });
-    } catch (error: any) {
+    } catch (error) {
       res.json({
         redirect: `/view/admin/categories/update/${id}?error=${error.message}`,
       });
@@ -157,7 +157,7 @@ privateRouter
       res.json({
         redirect: `/view/admin/orchids?success=Create success`,
       });
-    } catch (error: any) {
+    } catch (error) {
       res.json({ redirect: `/view/admin/orchids?error=${error.message}` });
     }
   })
@@ -176,7 +176,7 @@ privateRouter
       res.json({
         redirect: `/view/admin/categories?success=Create success`,
       });
-    } catch (error: any) {
+    } catch (error) {
       res.json({ redirect: `/view/admin/categories?error=${error.message}` });
     }
   })
@@ -189,7 +189,7 @@ privateRouter
       }
       const category = await categoryRepository.getCategoryByName(categoryName);
       const data = await orchidRepository.updateOrchid(id, {
-        category: category[0]._id as unknown as string,
+        category: category[0]._id,
         image,
         isNatural,
         name,
@@ -198,7 +198,7 @@ privateRouter
       res.json({
         redirect: `/view/admin/orchids/update/${id}?success=Update success`,
       });
-    } catch (error: any) {
+    } catch (error) {
       res.json({
         redirect: `/view/admin/orchids/update/${id}?error=${error.message}`,
       });

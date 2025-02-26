@@ -3,13 +3,13 @@ import path from "path";
 import { fileURLToPath } from "url";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
-import connectDB from "./router/package/connection/index.ts";
-import userRouter from "./router/api/user.controller.ts";
-import adminRouter from "./router/api/admin.controller.ts";
-import orchidRouter from "./router/api/orchid.controller.ts";
-import categoryRouter from "./router/api/category.controller.ts";
-import publicRouter from "./router/view/public.controller.ts";
-import privateRouter from "./router/view/private.controller.ts";
+import connectDB from "./router/package/connection/index.js";
+import userRouter from "./router/api/user.controller.js";
+import adminRouter from "./router/api/admin.controller.js";
+import orchidRouter from "./router/api/orchid.controller.js";
+import categoryRouter from "./router/api/category.controller.js";
+import publicRouter from "./router/view/public.controller.js";
+import privateRouter from "./router/view/private.controller.js";
 
 var app = express();
 

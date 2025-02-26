@@ -1,7 +1,6 @@
 import { Router } from "express";
-import { Category } from "../package/model/category.ts";
-import CategoryRepository from "../package/repository/category.repository.ts";
-import { UserRepository } from "../package/repository/user.repository.ts";
+import CategoryRepository from "../package/repository/category.repository.js";
+import { UserRepository } from "../package/repository/user.repository.js";
 
 const categoryRouter = Router();
 
@@ -13,7 +12,7 @@ categoryRouter
     try {
       const categories = await categoryRepository.getAllCategories();
       res.json(categories);
-    } catch (error: any) {
+    } catch (error) {
       res.status(500).json({ error: error.message });
     }
   })
@@ -27,7 +26,7 @@ categoryRouter
       } else {
         res.status(404).json({ message: "Category not found" });
       }
-    } catch (error: any) {
+    } catch (error) {
       res.status(500).json({ error: error.message });
     }
   })
@@ -35,7 +34,7 @@ categoryRouter
   .post("/", async (req, res) => {
     try {
       const user = await userRepository.getAuthorization(req);
-      const categoryData: Category = req.body;
+      const categoryData = req.body;
 
       if (!user?.isAdmin) {
         throw new Error("Unauthorized");
@@ -43,7 +42,7 @@ categoryRouter
 
       const newCategory = await categoryRepository.createCategory(categoryData);
       res.json(newCategory);
-    } catch (error: any) {
+    } catch (error) {
       res.status(500).json({ error: error.message });
     }
   })
@@ -58,7 +57,7 @@ categoryRouter
         throw new Error("Unauthorized");
       }
 
-      const updateData: Category = req.body;
+      const updateData = req.body;
       const updatedCategory = await categoryRepository.updateCategory(
         categoryId,
         updateData
@@ -68,7 +67,7 @@ categoryRouter
       } else {
         res.status(404).json({ message: "Category not found" });
       }
-    } catch (error: any) {
+    } catch (error) {
       res.status(500).json({ error: error.message });
     }
   })
@@ -89,7 +88,7 @@ categoryRouter
       } else {
         res.status(404).json({ message: "Category not found" });
       }
-    } catch (error: any) {
+    } catch (error) {
       res.status(500).json({ error: error.message });
     }
   });

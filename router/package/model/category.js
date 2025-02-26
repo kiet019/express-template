@@ -11,7 +11,3 @@ export const categorySchema = new Schema(
 
 export const categoryModel = model("category", categorySchema);
 
-export interface Category {
-  _id: any;
-  categoryName: string;
-}

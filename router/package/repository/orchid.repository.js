@@ -1,5 +1,5 @@
-import { commentModel, Comment } from "../model/comment.ts";
-import { Orchid, orchidModel } from "../model/orchid.ts";
+import { commentModel } from "../model/comment.js";
+import {  orchidModel } from "../model/orchid.js";
 
 class OrchidRepository {
   async userGetAllOrchids() {
@@ -24,11 +24,11 @@ class OrchidRepository {
       .exec();
     return orchids;
   }
-  async getOrchidsByCategory(categoryId: string) {
+  async getOrchidsByCategory(categoryId) {
     const orchids = await orchidModel.find({ category: categoryId }).exec();
     return orchids;
   }
-  async getOrchidById(orchidId: string) {
+  async getOrchidById(orchidId) {
     const orchid = await orchidModel
       .findById(orchidId)
       .populate("category")
@@ -43,26 +43,15 @@ class OrchidRepository {
     return orchid;
   }
 
-  async createOrchid(orchidData: {
-    name: string;
-    image: string;
-    isNatural: boolean;
-    origin: string;
-    category: string;
-  }) {
+  async createOrchid(orchidData)
+     {
     const newOrchid = await orchidModel.create(orchidData);
     return newOrchid;
   }
 
   async updateOrchid(
-    orchidId: string,
-    updateData: {
-      name: string;
-      image: string;
-      isNatural: boolean;
-      origin: string;
-      category: string;
-    }
+    orchidId,
+    updateData 
   ) {
     const updatedOrchid = await orchidModel
       .findByIdAndUpdate(orchidId, updateData, { new: true })
@@ -70,7 +59,7 @@ class OrchidRepository {
       .exec();
     return updatedOrchid;
   }
-  async searchOrchidByName(keyword: string) {
+  async searchOrchidByName(keyword) {
     const orchids = await orchidModel
       .find({ name: { $regex: keyword, $options: "i" } })
       .populate("category")
@@ -78,23 +67,20 @@ class OrchidRepository {
     return orchids;
   }
 
-  async deleteOrchid(orchidId: string): Promise<boolean> {
+  async deleteOrchid(orchidId) {
     const result = await orchidModel.findByIdAndDelete(orchidId).exec();
     return result !== null;
   }
-  async findOrchidByName(name: string) {
+  async findOrchidByName(name) {
     const orchid = await orchidModel.find({ name }).populate("category").exec();
     return orchid;
   }
 
   // Hàm để tạo comment
   async createComment(
-    orchidId: string,
-    authorId: string,
-    commentData: {
-      comment: string;
-      rating: number;
-    }
+    orchidId,
+    authorId,
+    commentData 
   ) {
     const orchid = await orchidModel.findById(orchidId);
 
@@ -125,7 +111,7 @@ class OrchidRepository {
   }
 
   // Hàm để xóa comment
-  async deleteComment(orchidId: string, commentId: any, authorId: any) {
+  async deleteComment(orchidId, commentId, authorId) {
     const orchid = await orchidModel.findById(orchidId);
 
     if (!orchid) {

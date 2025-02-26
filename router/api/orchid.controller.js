@@ -1,8 +1,6 @@
 import express from "express";
-import OrchidRepository from "../package/repository/orchid.repository.ts";
-import { Orchid } from "../package/model/orchid.ts";
-import { UserRepository } from "../package/repository/user.repository.ts";
-import { User } from "../package/model/user.ts";
+import OrchidRepository from "../package/repository/orchid.repository.js";
+import { UserRepository } from "../package/repository/user.repository.js";
 
 const orchidRouter = express.Router();
 const orchidRepository = new OrchidRepository();
@@ -15,7 +13,7 @@ orchidRouter
       const { name } = req.body;
       const orchids = await orchidRepository.findOrchidByName(name);
       res.json(orchids);
-    } catch (error: any) {
+    } catch (error) {
       res.status(500).json({ error: error.message });
     }
   })
@@ -23,7 +21,7 @@ orchidRouter
     try {
       const orchids = await orchidRepository.adminGetAllOrchids();
       res.json(orchids);
-    } catch (error: any) {
+    } catch (error) {
       res.status(500).json({ error: error.message });
     }
   })
@@ -37,7 +35,7 @@ orchidRouter
       } else {
         res.status(404).json({ message: "Orchid not found" });
       }
-    } catch (error: any) {
+    } catch (error) {
       res.status(500).json({ error: error.message });
     }
   })
@@ -53,7 +51,7 @@ orchidRouter
 
       const newOrchid = await orchidRepository.createOrchid(orchidData);
       res.json(newOrchid);
-    } catch (error: any) {
+    } catch (error) {
       res.status(500).json({ error: error.message });
     }
   })
@@ -78,7 +76,7 @@ orchidRouter
       } else {
         res.status(404).json({ message: "Orchid not found" });
       }
-    } catch (error: any) {
+    } catch (error) {
       res.status(500).json({ error: error.message });
     }
   })
@@ -97,7 +95,7 @@ orchidRouter
       } else {
         res.status(404).json({ message: "Orchid not found" });
       }
-    } catch (error: any) {
+    } catch (error) {
       res.status(500).json({ error: error.message });
     }
   })
@@ -105,13 +103,13 @@ orchidRouter
     try {
       const { orchidId, commentData } = req.body;
       console.log(orchidId, commentData);
-      const user = await userRepository.getAuthorization(req) as User;
+      const user = await userRepository.getAuthorization(req);
       const comment = await orchidRepository.createComment(orchidId, user?._id, commentData);
       if (user?.isAdmin) {
         throw new Error("Unauthorized");
       }
       res.json(comment);
-    } catch (error: any) {
+    } catch (error) {
       res.status(500).json({ error: error.message });
     }
   });

@@ -1,7 +1,5 @@
 import { Schema, model } from "mongoose";
-import { Comment, commentSchema } from "./comment.ts";
-import { Category } from "./category.ts";
-
+import { commentSchema } from "./comment.js";
 export const orchidSchema = new Schema(
   {
     name: { type: String, require: true },
@@ -19,13 +17,3 @@ export const orchidSchema = new Schema(
 );
 
 export const orchidModel = model("orchid", orchidSchema)
-
-export interface Orchid {
-  _id: any
-  name: string,
-  origin: string,
-  isNatural: boolean,
-  category: Category
-  image: string,
-  comment: Comment[]
-}

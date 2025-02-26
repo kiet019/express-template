@@ -1,17 +1,17 @@
-import { Category, categoryModel } from "../model/category.ts";
+import { categoryModel } from "../model/category.js";
 
 class CategoryRepository {
   async getAllCategories() {
     return await categoryModel.find().exec();
   }
-  async getCategoryByName(categoryName: string) {
+  async getCategoryByName(categoryName) {
     return await categoryModel.find({categoryName})
   }
-  async getCategoryById(categoryId: string) {
+  async getCategoryById(categoryId) {
     return await categoryModel.findById(categoryId).exec();
   }
 
-  async createCategory(categoryData: Category) {
+  async createCategory(categoryData) {
     if (categoryData.categoryName.length === 0) {
       throw new Error("Category name is not empty");
     }
@@ -20,13 +20,13 @@ class CategoryRepository {
     });
   }
 
-  async updateCategory(categoryId: string, updateData: Partial<Category>) {
+  async updateCategory(categoryId, updateData ) {
     return await categoryModel
       .findByIdAndUpdate(categoryId, updateData, { new: true })
       .exec();
   }
 
-  async deleteCategory(categoryId: string) {
+  async deleteCategory(categoryId) {
     const result = await categoryModel.findByIdAndDelete(categoryId).exec();
     return result !== null;
   }

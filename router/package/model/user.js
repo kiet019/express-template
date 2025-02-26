@@ -19,11 +19,3 @@ export const userSchema = new Schema(
 
 export const userModel = model("user", userSchema);
 
-export interface User {
-  _id: any;
-  username: string;
-  password: string;
-  name: string;
-  YOB: number;
-  isAdmin: boolean;
-}

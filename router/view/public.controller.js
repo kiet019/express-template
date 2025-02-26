@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { UserRepository } from "../package/repository/user.repository.ts";
+import { UserRepository } from "../package/repository/user.repository.js";
 import {
   getMessage,
   getPageParams,
   getToken,
   setToken,
-} from "../package/util.ts";
-import OrchidRepository from "../package/repository/orchid.repository.ts";
+} from "../package/util.js";
+import OrchidRepository from "../package/repository/orchid.repository.js";
 
 const publicRouter = Router();
 const userRepository = new UserRepository();
@@ -18,7 +18,7 @@ publicRouter
       const orchidsList = await orchidRepository.userGetAllOrchids();
       console.log({ ...getPageParams(req, [], []), orchidsList });
       res.render("index", { ...getPageParams(req, [], []), orchidsList });
-    } catch (error: any) {
+    } catch (error) {
       res.redirect("/view");
     }
   })
@@ -45,7 +45,7 @@ publicRouter
       try {
         const decode = (await userRepository.verifyToken(
           getToken(req)
-        )) as unknown as any;
+        ));
         if (
           orchid?.comments.find((value) => value.author?._id == decode.userId)
         ) {
@@ -116,7 +116,7 @@ publicRouter
       res.json({
         redirect: "/view",
       });
-    } catch (error: any) {
+    } catch (error) {
       console.log(error);
       res.json({});
     }
@@ -132,7 +132,7 @@ publicRouter
           redirect: user?.isAdmin ? "/view/admin" : "/view",
         });
       }
-    } catch (error: any) {
+    } catch (error) {
       console.log(error.message);
       res.json({ redirect: `/view/login?error=${error.message}` });
     }
@@ -144,7 +144,7 @@ publicRouter
       res.json({
         redirect: "/view",
       });
-    } catch (error: any) {
+    } catch (error) {
       console.log(error.message);
       res.json({ redirect: `/view/signup?error=${error.message}` });
     }
@@ -154,13 +154,13 @@ publicRouter
     try {
       const decode = (await userRepository.verifyToken(
         getToken(req)
-      )) as unknown as any;
+      ));
       const data = await orchidRepository.createComment(id, decode.userId, {
         comment,
         rating,
       });
       res.json({ redirect: `/view/details/${id}?success=success` });
-    } catch (error: any) {
+    } catch (error) {
       console.log(error.message);
       res.json({ redirect: `/view/details/${id}?error=${error.message}` });
     }
@@ -170,13 +170,13 @@ publicRouter
     try {
       const decode = (await userRepository.verifyToken(
         getToken(req)
-      )) as unknown as any;
+      ));
       const data = await userRepository.updateUser(decode.userId, {
         name,
         YOB,
       });
       res.json({ redirect: `/view/account/update?success=Update success` });
-    } catch (error: any) {
+    } catch (error) {
       console.log(error.message);
       res.json({ redirect: `/view/account/update?error=${error.message}` });
     }
@@ -186,7 +186,7 @@ publicRouter
     try {
       const decode = (await userRepository.verifyToken(
         getToken(req)
-      )) as unknown as any;
+      )) ;
       if (newPassword !== confirmPassword) {
         throw new Error("Confirm password is not match");
       }
@@ -198,7 +198,7 @@ publicRouter
       res.json({
         redirect: `/view/account/update-password?success=Update success`,
       });
-    } catch (error: any) {
+    } catch (error) {
       console.log(error.message);
       res.json({
         redirect: `/view/account/update-password?error=${error.message}`,
