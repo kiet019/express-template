@@ -19,7 +19,7 @@ publicRouter
       console.log({ ...getPageParams(req, [], []), orchidsList });
       res.render("index", { ...getPageParams(req, [], []), orchidsList });
     } catch (error) {
-      res.redirect("/view");
+      // res.redirect("/view");
     }
   })
   .get("/login", async (req, res) => {

@@ -21,15 +21,16 @@ export const getToken = (req) => {
   const token = req.cookies["token"];
   return token;
 };
-export const setToken = async (res) => {
+export const setToken = async (res, token) => {
   const expire = new Date(Date.now() + 3600000);
   res.cookie("token", token, { httpOnly: true, expires: expire });
 };
 export const getMessage = (req) => {
-  let success;
-  let error;
+  let success = '';
+  let error = '';
   if (req.query.success) {
     const message = decodeURIComponent(req.query.success);
+    console.log(message)
     success = message.split("-");
   }
   if (req.query.error) {

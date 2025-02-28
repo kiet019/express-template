@@ -11,7 +11,7 @@ import { createServer } from "http";
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || "3000");
+var port = normalizePort(process.env.PORT || "4001");
 app.set("port", port);
 
 /**
@@ -80,6 +80,6 @@ function onError(error) {
 
 function onListening() {
   var addr = server.address();
-  console.log("http://localhost:3000/")
-  console.log("http://localhost:3000/view")
+  console.log("http://localhost:4001/")
+  console.log("http://localhost:4001/view")
 }
