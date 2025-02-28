@@ -104,7 +104,11 @@ orchidRouter
       const { orchidId, commentData } = req.body;
       console.log(orchidId, commentData);
       const user = await userRepository.getAuthorization(req);
-      const comment = await orchidRepository.createComment(orchidId, user?._id, commentData);
+      const comment = await orchidRepository.createComment(
+        orchidId,
+        user?._id,
+        commentData
+      );
       if (user?.isAdmin) {
         throw new Error("Unauthorized");
       }

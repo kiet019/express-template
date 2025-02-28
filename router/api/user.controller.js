@@ -28,11 +28,11 @@ userRouter
 
   .put("/update-password", async (req, res) => {
     try {
-      const user = (await userRepository.getAuthorization(req));
+      const user = await userRepository.getAuthorization(req);
       const { password, newPassword, confirmPassword } = req.body;
 
       if (newPassword !== confirmPassword) {
-        throw new Error("Password not match")
+        throw new Error("Password not match");
       }
       const updatedUser = await userRepository.updatePassword(
         user._id,
@@ -48,7 +48,7 @@ userRouter
   // Update user by ID
   .put("/update-user", async (req, res) => {
     try {
-      const user = (await userRepository.getAuthorization(req));
+      const user = await userRepository.getAuthorization(req);
       const updateData = req.body;
 
       const updatedUser = await userRepository.updateUser(
